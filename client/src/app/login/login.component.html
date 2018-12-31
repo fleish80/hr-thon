@@ -1,18 +1,16 @@
 <form [formGroup]="form" (ngSubmit)="submit()">
-    <mat-card>
-        <mat-form-field>
-            <mat-label>{{'username' | translate}}</mat-label>
-            <input matInput type="text" [formControl]="usernameCtrl">
-            <mat-icon matSuffix>face</mat-icon>
-            <!-- <mat-error *ngIf="usernameCtrl.invalid">חובה להזין  -->
-            <!-- </mat-error> -->
-          </mat-form-field>
-          <mat-form-field>
-            <mat-label>סיסמא</mat-label>
-            <input matInput type="text" [formControl]="passwordCtrl">
-            <mat-icon matSuffix>face</mat-icon>
-            <!-- <mat-error *ngIf="lastNameCtrl.invalid">{{lastNameCtrl.errors | errorKey:'lastName'}}
-            </mat-error> -->
-          </mat-form-field>
-    </mat-card>
+  <mat-card>
+    <mat-form-field>
+      <mat-label>{{'username' | translate}}</mat-label>
+      <input matInput type="text" [formControl]="usernameCtrl">
+      <mat-icon matSuffix>person</mat-icon>
+      <mat-error *ngIf="usernameCtrl.invalid">{{'usernameError' | translate}}</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>סיסמא</mat-label>
+      <input matInput type="password" [formControl]="passwordCtrl">
+      <mat-icon matSuffix>security</mat-icon>
+      <mat-error *ngIf="passwordCtrl.invalid">{{'passwordError' | translate}}</mat-error>
+    </mat-form-field>
+  </mat-card>
 </form>
