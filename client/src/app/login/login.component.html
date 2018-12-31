@@ -1,3 +1,18 @@
-<p>
-  login works!
-</p>
+<form [formGroup]="form" (ngSubmit)="submit()">
+    <mat-card>
+        <mat-form-field>
+            <mat-label>שם משתמש</mat-label>
+            <input matInput type="text" [formControl]="usernameCtrl">
+            <mat-icon matSuffix>face</mat-icon>
+            <mat-error *ngIf="usernameCtrl.invalid">חובה להזין 
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>סיסמא</mat-label>
+            <input matInput type="text" [formControl]="lastNameCtrl">
+            <mat-icon matSuffix>face</mat-icon>
+            <mat-error *ngIf="lastNameCtrl.invalid">{{lastNameCtrl.errors | errorKey:'lastName'}}
+            </mat-error>
+          </mat-form-field>
+    </mat-card>
+</form>
