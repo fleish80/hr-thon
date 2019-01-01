@@ -8,6 +8,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { AngularFireAuth } from '@angular/fire/auth';
 
 
 @NgModule({
@@ -25,7 +26,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
     TranslateModule.forRoot(),
     MaterialModule
   ],
-  providers: [],
+  providers: [AngularFireAuth],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
