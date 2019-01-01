@@ -15,6 +15,7 @@ import {
   exports: [MatCardModule,
     MatInputModule,
     MatFormFieldModule,
-    MatIconModule]
+    MatIconModule,
+    MatButtonModule]
 })
 export class MaterialModule { }

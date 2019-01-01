@@ -2,5 +2,6 @@ export const trans = ({
     username: 'שם משתמש',
     password: 'סיסמא',
     usernameError: 'חובה להזין שם משתמש',
-    passwordError: 'חובה להזין סיסמא'
+    passwordError: 'חובה להזין סיסמא',
+    connect: 'התחבר'
 });
