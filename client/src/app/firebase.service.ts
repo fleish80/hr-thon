@@ -11,7 +11,7 @@ export class FirebaseService {
 
   emailLogin(login: Login) {
     return this.afAuth.auth
-      .signInAndRetrieveDataWithEmailAndPassword(login.username, login.password);
+      .signInWithEmailAndPassword(login.username, login.password);
   }
 
   currentUser() {

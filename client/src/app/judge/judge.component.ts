@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRouteSnapshot, ActivatedRoute, Params } from '@angular/router';
 
 @Component({
   selector: 'app-judge',
@@ -7,9 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class JudgeComponent implements OnInit {
 
-  constructor() { }
+  constructor(private activeRoute: ActivatedRoute) { }
 
   ngOnInit() {
+    this.activeRoute.params.subscribe((data: Params) => {
+      console.log('uid', data['uid']);
+    });
   }
 
 }
