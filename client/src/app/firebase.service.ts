@@ -11,11 +11,10 @@ export class FirebaseService {
 
   emailLogin(login: Login) {
     return this.afAuth.auth
-      .signInWithEmailAndPassword(login.username, login.password);
-    // .then(credential => {
-    //   // this.notify.update('Welcome back!', 'success');
-    //   // return this.updateUserData(credential.user);
-    // })
-    // .catch(error => this.handleError(error));
+      .signInAndRetrieveDataWithEmailAndPassword(login.username, login.password);
+  }
+
+  currentUser() {
+    this.afAuth.auth.currentUser
   }
 }

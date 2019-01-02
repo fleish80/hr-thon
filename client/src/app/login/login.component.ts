@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { FirebaseService } from '../firebase.service';
 import { Login } from './login';
 
@@ -31,8 +31,8 @@ export class LoginComponent implements OnInit {
 
   async submit() {
     if (this.form.valid) {
-      const credetionals = await this.firebaseService.emailLogin(<Login>this.form.value);
-      console.log('credetionals', credetionals);
+      const credetionals: firebase.auth.UserCredential = await this.firebaseService.emailLogin(<Login>this.form.value);
+      console.log('credetionals.user.uid', credetionals.user.uid);
     }
 
   }
