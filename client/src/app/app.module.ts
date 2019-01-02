@@ -11,13 +11,15 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { MaterialModule } from './material.module';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { JudgeComponent } from './judge/judge.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    JudgeComponent
   ],
   imports: [
     BrowserModule,
