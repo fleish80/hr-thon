@@ -12,6 +12,8 @@ import { LoginComponent } from './login/login.component';
 import { MaterialModule } from './material.module';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { JudgeComponent } from './judge/judge.component';
+import { RatingComponent } from './judge/rating/rating.component';
+import { AngularFirestore } from '@angular/fire/firestore';
 
 
 @NgModule({
@@ -19,7 +21,8 @@ import { JudgeComponent } from './judge/judge.component';
     AppComponent,
     LoginComponent,
     NotFoundComponent,
-    JudgeComponent
+    JudgeComponent,
+    RatingComponent
   ],
   imports: [
     BrowserModule,
@@ -31,7 +34,7 @@ import { JudgeComponent } from './judge/judge.component';
     MaterialModule,
     AngularFireModule.initializeApp(firebase)
   ],
-  providers: [AngularFireAuth],
+  providers: [AngularFireAuth, AngularFirestore],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
