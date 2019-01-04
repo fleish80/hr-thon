@@ -2,9 +2,11 @@
   <ul>
     <li *ngFor="let clause of clauses">
       <span>{{clause.title}}</span>
-      <star-rating-control [starType]="'svg'" formControlName="{{clause.title}}"></star-rating-control>
+      <star-rating-control [starType]="'svg'" [numOfStars]="10" formControlName="{{clause.title}}" staticColor="ok"></star-rating-control>
+      <span>{{form.value[clause.title]}}/10</span>
     </li>
   </ul>
   <pre>{{ form.value | json }}</pre>
 </form>
 
+{{clauses | json}}
