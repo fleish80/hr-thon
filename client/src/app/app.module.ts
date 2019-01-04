@@ -14,6 +14,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { JudgeComponent } from './judge/judge.component';
 import { RatingComponent } from './judge/rating/rating.component';
 import { AngularFirestore } from '@angular/fire/firestore';
+import {StarRatingModule} from 'angular-star-rating';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { AngularFirestore } from '@angular/fire/firestore';
     ReactiveFormsModule,
     TranslateModule.forRoot(),
     MaterialModule,
-    AngularFireModule.initializeApp(firebase)
+    AngularFireModule.initializeApp(firebase),
+    StarRatingModule.forRoot()
   ],
   providers: [AngularFireAuth, AngularFirestore],
   bootstrap: [AppComponent]

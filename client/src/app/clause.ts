@@ -1,3 +1,4 @@
 export interface Clause {
-    title: string;
+    title?: string;
+    rating?: number;
 }

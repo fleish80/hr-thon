@@ -1,3 +1,10 @@
-<p>
-  rating works!
-</p>
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <ul>
+    <li *ngFor="let clause of clauses">
+      <span>{{clause.title}}</span>
+      <star-rating-control [starType]="'svg'" formControlName="{{clause.title}}"></star-rating-control>
+    </li>
+  </ul>
+  <pre>{{ form.value | json }}</pre>
+</form>
+

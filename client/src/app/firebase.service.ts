@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { Login } from './login/login';
 import { Judge } from './judge';
 import { map, tap } from 'rxjs/operators';
+import { Clause } from './clause';
 
 @Injectable({
   providedIn: 'root'
@@ -22,10 +23,6 @@ export class FirebaseService {
     this.afAuth.auth.currentUser
   }
 
-  getClauses(): Observable<any> {
-    return this.db.collection('Clause').valueChanges()
-  }
-
   getJudge(uid: string): Observable<Judge> {
     return this.db.doc<Judge>(`judges/${uid}`).valueChanges();
   }
@@ -33,12 +30,24 @@ export class FirebaseService {
   getProjects(): Observable<Project[]> {
     return this.db.collection<Project>('projects').snapshotChanges().pipe(
       map((changes: DocumentChangeAction<Project>[]) => {
-        return changes.map((change: DocumentChangeAction<Project>)  => {
+        return changes.map((change: DocumentChangeAction<Project>) => {
           const id = +change.payload.doc.id;
           const data = change.payload.doc.data();
           return { id, ...data } as Project;
         });
       }
-    ));
+      ));
+  }
+
+  getClauses(): Observable<Clause[]> {
+    return this.db.collection<Clause>('clauses').snapshotChanges().pipe(
+      map((changes: DocumentChangeAction<Clause>[]) => {
+        return changes.map((change: DocumentChangeAction<Clause>) => {
+          const title = change.payload.doc.id;
+          return { title } as Clause;
+        });
+      }
+      ),
+      tap(data => console.log(data)));
   }
 }

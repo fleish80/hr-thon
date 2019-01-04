@@ -3,6 +3,7 @@ import { ActivatedRouteSnapshot, ActivatedRoute, Params } from '@angular/router'
 import { FirebaseService } from '../firebase.service';
 import { Observable } from 'rxjs';
 import { Judge } from '../judge';
+import { Clause } from '../clause';
 
 @Component({
   selector: 'app-judge',
@@ -14,6 +15,7 @@ export class JudgeComponent implements OnInit {
   uid: string;
   judge$: Observable<Judge>;
   projects$: Observable<Project[]>;
+  clauses$: Observable<Clause[]>;
 
   constructor(private activeRoute: ActivatedRoute, private firebaseService: FirebaseService) { }
 
@@ -24,6 +26,7 @@ export class JudgeComponent implements OnInit {
         this.judge$ = this.firebaseService.getJudge(data.uid);
       }
       this.projects$ = this.firebaseService.getProjects();
+      this.clauses$ = this.firebaseService.getClauses();
     });
   }
 
