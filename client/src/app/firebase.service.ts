@@ -34,11 +34,11 @@ export class FirebaseService {
     return this.db.collection<Project>('projects').snapshotChanges().pipe(
       map((changes: DocumentChangeAction<Project>[]) => {
         return changes.map((change: DocumentChangeAction<Project>)  => {
-          const id = parseInt(change.payload.doc.id);
+          const id = +change.payload.doc.id;
           const data = change.payload.doc.data();
           return { id, ...data } as Project;
         });
       }
-    )) as Observable<Project[]>;
+    ));
   }
 }

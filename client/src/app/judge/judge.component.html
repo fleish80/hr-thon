@@ -1,5 +1,8 @@
 <mat-card *ngIf="judge$ | async as judge">
-  <mat-card-title>{{'hello' | translate: {fullName: judge.name} }}</mat-card-title>
-
-  <pre>{{projects$ | async | json}}</pre>
-</mat-card>
+  <mat-card-header>
+    <mat-card-title>{{'hello' | translate: {fullName: judge.name} }}</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    
+  </mat-card-content>
+ </mat-card>

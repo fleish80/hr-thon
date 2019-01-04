@@ -8,5 +8,6 @@ export const trans = ({
     saturn: 'חשיבה דיגיטלית',
     venus: 'עיצוב',
     mars: 'עד כמה המוצר מתאים לדרישות שלהבנק',
-    hello: 'שלום {{fullName}}'
+    hello: 'שלום {{fullName}}',
+    systemConnection: 'כניסה למערכת הדירוגים'
 });
