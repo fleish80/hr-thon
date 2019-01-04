@@ -23,11 +23,7 @@ export class RatingComponent implements OnInit {
         const formControl = new FormControl(clause.rating || 0, [Validators.required]);
         formControl.valueChanges.subscribe((value: number) => { clause.rating = value; });
         this.form.addControl(clause.title, formControl);
-        // return {[clause.title]: formControl};
       });
-      // const ctrlsEntries = Object.entries({...ctrls}).map((entry => entry[1]));
-      // console.log('ctrlsEntries', ctrlsEntries);
-      // this.form = this.formBuilder.group(ctrlsEntries);
     }
   }
 
