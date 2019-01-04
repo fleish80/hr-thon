@@ -4,7 +4,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
   MatButtonModule, MatCardModule,
   MatFormFieldModule, MatGridListModule, MatIconModule, MatInputModule,
-  MatMenuModule, MatRippleModule, MatSelectModule, MatProgressSpinnerModule, MatSnackBarModule
+  MatMenuModule, MatRippleModule, MatSelectModule, MatProgressSpinnerModule, MatSnackBarModule, MatExpansionModule
 } from '@angular/material';
 
 @NgModule({
@@ -16,6 +16,7 @@ import {
     MatInputModule,
     MatFormFieldModule,
     MatIconModule,
-    MatButtonModule]
+    MatButtonModule,
+    MatExpansionModule]
 })
 export class MaterialModule { }
