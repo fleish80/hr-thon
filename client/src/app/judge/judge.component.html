@@ -1,3 +1,5 @@
-<mat-card *ngIf="(judge | async) as judge">
-  <mat-card-title>{{'hello' | translate: {fullName: judge.FullName} }}</mat-card-title>
+<mat-card *ngIf="judge$ | async as judge">
+  <mat-card-title>{{'hello' | translate: {fullName: judge.name} }}</mat-card-title>
+
+  <pre>{{projects$ | async | json}}</pre>
 </mat-card>

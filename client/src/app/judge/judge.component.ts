@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRouteSnapshot, ActivatedRoute, Params } from '@angular/router';
 import { FirebaseService } from '../firebase.service';
 import { Observable } from 'rxjs';
+import { Judge } from '../judge';
 
 @Component({
   selector: 'app-judge',
@@ -10,14 +11,19 @@ import { Observable } from 'rxjs';
 })
 export class JudgeComponent implements OnInit {
 
-  judge: Observable<any>;
+  uid: string;
+  judge$: Observable<Judge>;
+  projects$: Observable<Project[]>;
 
   constructor(private activeRoute: ActivatedRoute, private firebaseService: FirebaseService) { }
 
   ngOnInit() {
     this.activeRoute.params.subscribe((data: Params) => {
-      console.log('uid', data['uid']);
-      this.judge = this.firebaseService.getJudge(data['uid']);
+      this.uid = data.uid;
+      if (this.uid) {
+        this.judge$ = this.firebaseService.getJudge(data.uid);
+      }
+      this.projects$ = this.firebaseService.getProjects();
     });
   }
 

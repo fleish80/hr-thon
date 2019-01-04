@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFirestore, DocumentChangeAction } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { Login } from './login/login';
+import { Judge } from './judge';
+import { map, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -24,11 +26,19 @@ export class FirebaseService {
     return this.db.collection('Clause').valueChanges()
   }
 
-  getProjects(): Observable<any> {
-    return this.db.collection('Project').valueChanges()
+  getJudge(uid: string): Observable<Judge> {
+    return this.db.doc<Judge>(`judges/${uid}`).valueChanges();
   }
 
-  getJudge(uid: string) {
-    return this.db.doc(`Judge/${uid}`).valueChanges();
+  getProjects(): Observable<Project[]> {
+    return this.db.collection<Project>('projects').snapshotChanges().pipe(
+      map((changes: DocumentChangeAction<Project>[]) => {
+        return changes.map((change: DocumentChangeAction<Project>)  => {
+          const id = parseInt(change.payload.doc.id);
+          const data = change.payload.doc.data();
+          return { id, ...data } as Project;
+        });
+      }
+    )) as Observable<Project[]>;
   }
 }
