@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRouteSnapshot, ActivatedRoute, Params } from '@angular/router';
 import { FirebaseService } from '../firebase.service';
-import { Observable } from 'rxjs';
+import { Observable, forkJoin, combineLatest } from 'rxjs';
 import { Judge } from '../judge';
 import { Clause } from '../clause';
 
@@ -13,9 +13,9 @@ import { Clause } from '../clause';
 export class JudgeComponent implements OnInit {
 
   uid: string;
-  judge$: Observable<Judge>;
-  projects$: Observable<Project[]>;
-  clauses$: Observable<Clause[]>;
+  judge: Judge;
+  projects: Project[];
+  clauses: Clause[];
 
   constructor(private activeRoute: ActivatedRoute, private firebaseService: FirebaseService) { }
 
@@ -23,10 +23,20 @@ export class JudgeComponent implements OnInit {
     this.activeRoute.params.subscribe((data: Params) => {
       this.uid = data.uid;
       if (this.uid) {
-        this.judge$ = this.firebaseService.getJudge(data.uid);
+        const judge$ = this.firebaseService.getJudge(data.uid);
+        const projects$ = this.firebaseService.getProjects();
+        const clauses$ = this.firebaseService.getClauses();
+        combineLatest(
+          judge$, projects$, clauses$
+        ).subscribe(([judge, projects, clauses]) => {
+          this.judge = judge;
+          this.projects = projects;
+          this.clauses = clauses;
+          this.firebaseService.updateResult(judge, projects, clauses);
+        }, (error: any) => { console.log(error) }
+        );
       }
-      this.projects$ = this.firebaseService.getProjects();
-      this.clauses$ = this.firebaseService.getClauses();
+
     });
   }
 

@@ -24,7 +24,12 @@ export class FirebaseService {
   }
 
   getJudge(uid: string): Observable<Judge> {
-    return this.db.doc<Judge>(`judges/${uid}`).valueChanges();
+    return this.db.doc<Judge>(`judges/${uid}`).valueChanges().pipe(
+      map((judge: Judge) => {
+        judge.uid = uid;
+        return judge;
+      })
+    );
   }
 
   getProjects(): Observable<Project[]> {
@@ -49,5 +54,19 @@ export class FirebaseService {
       }
       ),
       tap(data => console.log(data)));
+  }
+
+  updateResult(judge: Judge, projects: Project[], clauses: Clause[]) {
+    // this.db.doc<Judge>(`judges/${judge.uid}`).collection('projects').doc(project.id.toString());
+    for (let project of projects) {
+     for (let clause of clauses) {
+        this.db
+        .collection('results').doc(judge.uid)
+        .collection('projects').doc(project.id.toString())
+        .collection('clauses').doc(clause.title).set({
+          rating: 0
+        });
+      }
+    };
   }
 }
