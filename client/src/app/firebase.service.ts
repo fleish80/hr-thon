@@ -64,6 +64,15 @@ export class FirebaseService {
           rating: clause.rating
         });
     };
+    if (!judge.hasProjects || !judge.hasProjects.includes(project.id)){
+      if (!judge.hasProjects) {
+        judge.hasProjects = [];
+      }
+      judge.hasProjects.push(project.id);
+      this.db.doc(`judges/${judge.uid}`).update({
+        hasProjects: judge.hasProjects
+      })
+    }
   }
 
   getClausesByJudgeAndProject(judge: Judge, project: Project): Observable<Clause[]> {
