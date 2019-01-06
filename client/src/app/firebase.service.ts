@@ -67,11 +67,15 @@ export class FirebaseService {
   }
 
   getClausesByJudgeAndProject(judge: Judge, project: Project): Observable<Clause[]> {
-    return this.db.collection<Clause>(`results/${judge.uid}/projects/${project.id}`).snapshotChanges().pipe(
+    return this.db.collection<Clause>(`results/${judge.uid}/projects/${project.id}/clauses`).snapshotChanges().pipe(
       map((changes: DocumentChangeAction<Clause>[]) => {
         return changes.map((change: DocumentChangeAction<Clause>) => {
           const title = change.payload.doc.id;
-          return { title } as Clause;
+          const data = change.payload.doc.data();
+          return {
+            title,
+            ...data
+          } as Clause;
         });
       }
       ));

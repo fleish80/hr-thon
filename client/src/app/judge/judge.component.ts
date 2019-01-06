@@ -46,7 +46,7 @@ export class JudgeComponent implements OnInit {
     for (let project of this.projects) {
       if (hastProjects && hastProjects.includes(project.id)) {
         this.firebaseService.getClausesByJudgeAndProject(this.judge, project).subscribe((clauses: Clause[]) => {
-          this.clausesMap.set(project.id, this.clauses);
+          this.clausesMap.set(project.id, clauses);
         })
       } else {
         this.clausesMap.set(project.id, this.clauses);
