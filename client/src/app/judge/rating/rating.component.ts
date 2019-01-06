@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Clause } from 'src/app/clause';
 
@@ -11,6 +11,7 @@ import { Clause } from 'src/app/clause';
 export class RatingComponent implements OnInit {
 
   @Input() clauses: Clause[];
+  @Output() update = new EventEmitter<Clause[]>();
   clausesMap: Map<string, number> = new Map<string, number>();
   form: FormGroup;
 
@@ -24,6 +25,12 @@ export class RatingComponent implements OnInit {
         formControl.valueChanges.subscribe((value: number) => { clause.rating = value; });
         this.form.addControl(clause.title, formControl);
       });
+    }
+  }
+
+  submit() {
+    if (this.form.valid) {
+      this.update.emit(this.clauses);
     }
   }
 

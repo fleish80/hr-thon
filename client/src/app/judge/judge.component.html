@@ -9,7 +9,7 @@
         <mat-expansion-panel-header>
           <mat-panel-title><strong>{{project.desc}}</strong></mat-panel-title>
         </mat-expansion-panel-header>
-        <app-rating [clauses]="clauses"></app-rating>
+        <app-rating *ngIf="clausesMap.has(project.id)" [clauses]="clausesMap.get(project.id)" (update)="updateRating(project, $event)"></app-rating>
       </mat-expansion-panel>
     </mat-accordion>
   </mat-card-content>

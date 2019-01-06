@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore, DocumentChangeAction } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
-import { Login } from './login/login';
-import { Judge } from './judge';
-import { map, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { Clause } from './clause';
+import { Judge } from './judge';
+import { Login } from './login/login';
 
 @Injectable({
   providedIn: 'root'
@@ -52,21 +52,28 @@ export class FirebaseService {
           return { title } as Clause;
         });
       }
-      ),
-      tap(data => console.log(data)));
+      ));
   }
 
-  updateResult(judge: Judge, projects: Project[], clauses: Clause[]) {
-    // this.db.doc<Judge>(`judges/${judge.uid}`).collection('projects').doc(project.id.toString());
-    for (let project of projects) {
-     for (let clause of clauses) {
-        this.db
+  setRating(judge: Judge, project: Project, clauses: Clause[]) {
+    for (let clause of clauses) {
+      this.db
         .collection('results').doc(judge.uid)
         .collection('projects').doc(project.id.toString())
         .collection('clauses').doc(clause.title).set({
-          rating: 0
+          rating: clause.rating
+        });
+    };
+  }
+
+  getClausesByJudgeAndProject(judge: Judge, project: Project): Observable<Clause[]> {
+    return this.db.collection<Clause>(`results/${judge.uid}/projects/${project.id}`).snapshotChanges().pipe(
+      map((changes: DocumentChangeAction<Clause>[]) => {
+        return changes.map((change: DocumentChangeAction<Clause>) => {
+          const title = change.payload.doc.id;
+          return { title } as Clause;
         });
       }
-    };
+      ));
   }
 }

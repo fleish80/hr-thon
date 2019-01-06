@@ -1,12 +1,14 @@
 <form [formGroup]="form" (ngSubmit)="submit()">
-  <ul>
-    <li *ngFor="let clause of clauses">
-      <span>{{clause.title}}</span>
-      <star-rating-control [starType]="'svg'" [numOfStars]="10" formControlName="{{clause.title}}" staticColor="ok"></star-rating-control>
-      <span>{{form.value[clause.title]}}/10</span>
-    </li>
-  </ul>
-  <pre>{{ form.value | json }}</pre>
+  <mat-card-content>
+    <ul>
+      <li *ngFor="let clause of clauses">
+        <span>{{clause.title}}</span>
+        <star-rating-control [starType]="'svg'" [numOfStars]="10" formControlName="{{clause.title}}" staticColor="ok"></star-rating-control>
+        <span>{{form.value[clause.title]}}/10</span>
+      </li>
+    </ul>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-stroked-button type="submit">{{'rate' | translate}}</button>
+  </mat-card-actions>
 </form>
-
-{{clauses | json}}

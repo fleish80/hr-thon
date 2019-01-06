@@ -16,6 +16,7 @@ export class JudgeComponent implements OnInit {
   judge: Judge;
   projects: Project[];
   clauses: Clause[];
+  clausesMap: Map<number, Clause[]> = new Map<number, Clause[]>();
 
   constructor(private activeRoute: ActivatedRoute, private firebaseService: FirebaseService) { }
 
@@ -32,12 +33,29 @@ export class JudgeComponent implements OnInit {
           this.judge = judge;
           this.projects = projects;
           this.clauses = clauses;
-          this.firebaseService.updateResult(judge, projects, clauses);
+          this.setClausesMap();
         }, (error: any) => { console.log(error) }
         );
       }
 
     });
+  }
+
+  setClausesMap() {
+    const hastProjects = this.judge.hasProjects;
+    for (let project of this.projects) {
+      if (hastProjects && hastProjects.includes(project.id)) {
+        this.firebaseService.getClausesByJudgeAndProject(this.judge, project).subscribe((clauses: Clause[]) => {
+          this.clausesMap.set(project.id, this.clauses);
+        })
+      } else {
+        this.clausesMap.set(project.id, this.clauses);
+      }
+    }
+  }
+
+  updateRating(project: Project, clauses: Clause[]) {
+    this.firebaseService.setRating(this.judge, project, clauses);
   }
 
 }
