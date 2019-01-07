@@ -19,8 +19,8 @@ export class FirebaseService {
       .signInWithEmailAndPassword(login.username, login.password);
   }
 
-  currentUser() {
-    this.afAuth.auth.currentUser
+  getCurrentUser(): firebase.User {
+    return this.afAuth.auth.currentUser;
   }
 
   getJudge(uid: string): Observable<Judge> {
