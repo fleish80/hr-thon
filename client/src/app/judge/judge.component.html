@@ -1,4 +1,4 @@
-<mat-card  *ngIf="judge && projects && clauses">
+<mat-card  *ngIf="judge && projects && clauses; else loading">
   <mat-card-header>
     <mat-card-title>{{'hello' | translate: {fullName: judge.name} }}</mat-card-title>
     <mat-card-subtitle>{{'chooseProject' | translate}}</mat-card-subtitle>
@@ -14,3 +14,7 @@
     </mat-accordion>
   </mat-card-content>
 </mat-card>
+
+<ng-template #loading>
+  <mat-spinner></mat-spinner>
+</ng-template>

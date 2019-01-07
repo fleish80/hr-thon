@@ -17,6 +17,8 @@ import {
     MatFormFieldModule,
     MatIconModule,
     MatButtonModule,
-    MatExpansionModule]
+    MatExpansionModule,
+    MatProgressSpinnerModule,
+    MatSnackBarModule]
 })
 export class MaterialModule { }

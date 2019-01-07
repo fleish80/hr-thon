@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { FirebaseService } from '../firebase.service';
-import { Login } from './login';
 import { Router } from '@angular/router';
+import { FirebaseService } from '../firebase.service';
+import { Login } from '../login';
+import { SnackBarService } from '../snack-bar.service';
 
 @Component({
   selector: 'app-login',
@@ -14,8 +15,9 @@ export class LoginComponent implements OnInit {
   form: FormGroup;
   usernameCtrl: FormControl;
   passwordCtrl: FormControl;
+  loading = false;
 
-  constructor(private fb: FormBuilder, private firebaseService: FirebaseService, private router: Router) { }
+  constructor(private fb: FormBuilder, private firebaseService: FirebaseService, private router: Router, private snackBarService: SnackBarService) { }
 
   ngOnInit() {
     this.initForm();
@@ -27,14 +29,20 @@ export class LoginComponent implements OnInit {
     this.form = this.fb.group({
       username: this.usernameCtrl,
       password: this.passwordCtrl
-    }) 
+    })
   };
 
   async submit() {
     if (this.form.valid) {
-      const credetionals: firebase.auth.UserCredential = await this.firebaseService.emailLogin(<Login>this.form.value);
-      this.router.navigate(['/judge', credetionals.user.uid]);
-      // console.log('credetionals.user.uid', credetionals.user.uid);
+      try {
+        this.loading = true;
+        const credetionals: firebase.auth.UserCredential = await this.firebaseService.emailLogin(<Login>this.form.value);
+        this.router.navigate(['/judge', credetionals.user.uid]);
+      }
+      catch (e) {
+        this.snackBarService.openFailure(e.message);
+        this.loading = false;
+      }
     }
 
   }

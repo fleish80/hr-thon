@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Clause } from './clause';
 import { Judge } from './judge';
-import { Login } from './login/login';
+import { Login } from './login';
 
 @Injectable({
   providedIn: 'root'
