@@ -1,3 +1,4 @@
+import { SnackBarService } from './snack-bar.service';
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore, DocumentChangeAction } from '@angular/fire/firestore';
@@ -6,21 +7,24 @@ import { map } from 'rxjs/operators';
 import { Clause } from './clause';
 import { Judge } from './judge';
 import { Login } from './login';
+import * as firebase from 'firebase';
+import { FirebaseAuth } from '@angular/fire';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FirebaseService {
 
-  constructor(private afAuth: AngularFireAuth, private db: AngularFirestore) { }
+  constructor(private afAuth: AngularFireAuth,
+    private db: AngularFirestore,
+    private snackBarService: SnackBarService) { }
 
   emailLogin(login: Login) {
-    return this.afAuth.auth
-      .signInWithEmailAndPassword(login.username, login.password);
+    return this.afAuth.auth.signInWithEmailAndPassword(login.username, login.password);
   }
 
-  getCurrentUser(): firebase.User {
-    return this.afAuth.auth.currentUser;
+  getAuth(): FirebaseAuth {
+    return this.afAuth.auth;
   }
 
   getJudge(uid: string): Observable<Judge> {
@@ -64,7 +68,7 @@ export class FirebaseService {
           rating: clause.rating
         });
     };
-    if (!judge.hasProjects || !judge.hasProjects.includes(project.id)){
+    if (!judge.hasProjects || !judge.hasProjects.includes(project.id)) {
       if (!judge.hasProjects) {
         judge.hasProjects = [];
       }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { combineLatest, Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { combineLatest, Observable, of } from 'rxjs';
+import { map, tap, catchError } from 'rxjs/operators';
 import { Clause } from '../clause';
 import { FirebaseService } from '../firebase.service';
 import { SnackBarService } from '../snack-bar.service';
@@ -35,7 +35,11 @@ export class JudgeComponent implements OnInit {
               projects, 
               clauses
             })),
-            tap((value) => {this.setClausesMap(value.judge, value.projects, value.clauses)})
+            tap((value) => {this.setClausesMap(value.judge, value.projects, value.clauses)}),
+            catchError(() => {
+              this.snackBarService.openFailure(); 
+              return of(null);
+            })
           );
       }
     });
