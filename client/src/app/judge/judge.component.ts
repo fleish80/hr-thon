@@ -39,7 +39,8 @@ export class JudgeComponent implements OnInit {
               clauses
             })),
             tap((value) => {this.setClausesMap(value.judge, value.projects, value.clauses)}),
-            catchError(() => {
+            catchError((error) => {
+              console.error(error);
               this.snackBarService.openFailure(); 
               return of(null);
             })
@@ -67,6 +68,9 @@ export class JudgeComponent implements OnInit {
       await this.firebaseService.setRating(judge, project, clauses);
       this.firebaseService.updateHasProject(judge, project);
       this.projectLoading = null;
+      console.log(project.desc);
+      const message = this.translateService.instant('projectRegistred', {projectName: project.desc});
+      this.snackBarService.openSuccess(message);
     }
     catch(e) {
       console.error(e);
