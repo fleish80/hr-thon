@@ -59,15 +59,37 @@ export class FirebaseService {
       ));
   }
 
-  setRating(judge: Judge, project: Project, clauses: Clause[]) {
-    for (let clause of clauses) {
-      this.db
+  setRating(judge: Judge, project: Project, clauses: Clause[]): Promise<any> {
+    return Promise.all(
+      clauses.map((clause: Clause) => {
+        this.db
         .collection('results').doc(judge.uid)
         .collection('projects').doc(project.id.toString())
         .collection('clauses').doc(clause.title).set({
           rating: clause.rating
         });
-    };
+      })
+    )
+    // for (let clause of clauses) {
+    //   this.db
+    //     .collection('results').doc(judge.uid)
+    //     .collection('projects').doc(project.id.toString())
+    //     .collection('clauses').doc(clause.title).set({
+    //       rating: clause.rating
+    //     });
+    // };
+    // if (!judge.hasProjects || !judge.hasProjects.includes(project.id)) {
+    //   if (!judge.hasProjects) {
+    //     judge.hasProjects = [];
+    //   }
+    //   judge.hasProjects.push(project.id);
+    //   this.db.doc(`judges/${judge.uid}`).update({
+    //     hasProjects: judge.hasProjects
+    //   })
+    // }
+  }
+
+  updateHasProject(judge: Judge, project: Project) {
     if (!judge.hasProjects || !judge.hasProjects.includes(project.id)) {
       if (!judge.hasProjects) {
         judge.hasProjects = [];

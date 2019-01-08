@@ -1,9 +1,10 @@
+import { TranslateService } from '@ngx-translate/core';
+import { FirebaseService } from './../firebase.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { combineLatest, Observable, of } from 'rxjs';
 import { map, tap, catchError } from 'rxjs/operators';
 import { Clause } from '../clause';
-import { FirebaseService } from '../firebase.service';
 import { SnackBarService } from '../snack-bar.service';
 
 @Component({
@@ -16,10 +17,12 @@ export class JudgeComponent implements OnInit {
   uid: string;
   values$: Observable<any>;
   clausesMap: Map<number, Clause[]> = new Map<number, Clause[]>();
+  projectLoading: number;
 
   constructor(private activeRoute: ActivatedRoute,
     private firebaseService: FirebaseService,
-    private snackBarService: SnackBarService) { }
+    private snackBarService: SnackBarService,
+    private translateService: TranslateService) { }
 
   ngOnInit() {
     this.activeRoute.params.subscribe((data: Params) => {
@@ -58,8 +61,18 @@ export class JudgeComponent implements OnInit {
     }
   }
 
-  updateRating(judge, project: Project, clauses: Clause[]) {
-    this.firebaseService.setRating(judge, project, clauses);
+  async updateRating(judge, project: Project, clauses: Clause[]) {
+    try {
+      this.projectLoading = project.id;
+      await this.firebaseService.setRating(judge, project, clauses);
+      this.firebaseService.updateHasProject(judge, project);
+      this.projectLoading = null;
+    }
+    catch(e) {
+      console.error(e);
+      this.snackBarService.openFailure();
+      this.projectLoading = null;
+    }
   }
 
 }

@@ -32,8 +32,6 @@ export class AuthGuardService implements CanActivate {
         console.log(user.uid);
         if (!user || user.uid !== uid) { this.router.navigate(['/login']); }
       }),
-      map(user => { return !!user && user.uid === uid; }),
-      tap(user => console.log('Authenticated?', user)));
-
+      map(user => { return !!user && user.uid === uid; }))
   }
 }

@@ -7,11 +7,7 @@
   min-width: 250px;
 }
  
-// .mat-card-header {
-//     justify-content: center;
-// }
-
-// .mat-card-content {
-//   display: flex;
-//   flex-direction: column;
-// }
+.mat-expansion-panel-body {
+  display: flex;
+  justify-content: center; 
+}
