@@ -1,16 +1,23 @@
-<mat-card  *ngIf="judge && projects && clauses">
+<mat-card  *ngIf="values$ | async as values; else loading">
   <mat-card-header>
-    <mat-card-title>{{'hello' | translate: {fullName: judge.name} }}</mat-card-title>
+    <mat-card-title>{{'hello' | translate: {fullName: values.judge.name} }}</mat-card-title>
     <mat-card-subtitle>{{'chooseProject' | translate}}</mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
     <mat-accordion>
-      <mat-expansion-panel *ngFor="let project of projects">
+      <mat-expansion-panel *ngFor="let project of values.projects">
         <mat-expansion-panel-header>
           <mat-panel-title><strong>{{project.desc}}</strong></mat-panel-title>
         </mat-expansion-panel-header>
-        <app-rating *ngIf="clausesMap.has(project.id)" [clauses]="clausesMap.get(project.id)" (update)="updateRating(project, $event)"></app-rating>
+        <app-rating *ngIf="clausesMap.has(project.id) && projectLoading !== project.id"
+        [clauses]="clausesMap.get(project.id)"
+        (update)="updateRating(values.judge, project, $event)"></app-rating>
+        <mat-spinner class="spinner-rating" *ngIf="projectLoading === project.id"></mat-spinner>
       </mat-expansion-panel>
     </mat-accordion>
   </mat-card-content>
 </mat-card>
+
+<ng-template #loading>
+  <mat-spinner></mat-spinner>
+</ng-template>

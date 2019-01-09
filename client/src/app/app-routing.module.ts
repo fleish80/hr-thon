@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { LoginComponent } from './login/login.component';
 import { JudgeComponent } from './judge/judge.component';
+import { AuthGuardService } from './auth-guard.service';
 
 const routes: Routes = [
   {
@@ -11,7 +12,8 @@ const routes: Routes = [
   },
   {
     path: 'judge/:uid',
-    component: JudgeComponent
+    component: JudgeComponent,
+    canActivate: [AuthGuardService],
   },
   {
     path: '',

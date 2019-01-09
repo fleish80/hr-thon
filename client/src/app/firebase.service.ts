@@ -1,3 +1,4 @@
+import { SnackBarService } from './snack-bar.service';
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore, DocumentChangeAction } from '@angular/fire/firestore';
@@ -5,22 +6,25 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Clause } from './clause';
 import { Judge } from './judge';
-import { Login } from './login/login';
+import { Login } from './login';
+import * as firebase from 'firebase';
+import { FirebaseAuth } from '@angular/fire';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FirebaseService {
 
-  constructor(private afAuth: AngularFireAuth, private db: AngularFirestore) { }
+  constructor(private afAuth: AngularFireAuth,
+    private db: AngularFirestore,
+    private snackBarService: SnackBarService) { }
 
   emailLogin(login: Login) {
-    return this.afAuth.auth
-      .signInWithEmailAndPassword(login.username, login.password);
+    return this.afAuth.auth.signInWithEmailAndPassword(login.username, login.password);
   }
 
-  currentUser() {
-    this.afAuth.auth.currentUser
+  getAuth(): FirebaseAuth {
+    return this.afAuth.auth;
   }
 
   getJudge(uid: string): Observable<Judge> {
@@ -55,16 +59,38 @@ export class FirebaseService {
       ));
   }
 
-  setRating(judge: Judge, project: Project, clauses: Clause[]) {
-    for (let clause of clauses) {
-      this.db
+  setRating(judge: Judge, project: Project, clauses: Clause[]): Promise<any> {
+    return Promise.all(
+      clauses.map((clause: Clause) => {
+        this.db
         .collection('results').doc(judge.uid)
         .collection('projects').doc(project.id.toString())
         .collection('clauses').doc(clause.title).set({
           rating: clause.rating
         });
-    };
-    if (!judge.hasProjects || !judge.hasProjects.includes(project.id)){
+      })
+    )
+    // for (let clause of clauses) {
+    //   this.db
+    //     .collection('results').doc(judge.uid)
+    //     .collection('projects').doc(project.id.toString())
+    //     .collection('clauses').doc(clause.title).set({
+    //       rating: clause.rating
+    //     });
+    // };
+    // if (!judge.hasProjects || !judge.hasProjects.includes(project.id)) {
+    //   if (!judge.hasProjects) {
+    //     judge.hasProjects = [];
+    //   }
+    //   judge.hasProjects.push(project.id);
+    //   this.db.doc(`judges/${judge.uid}`).update({
+    //     hasProjects: judge.hasProjects
+    //   })
+    // }
+  }
+
+  updateHasProject(judge: Judge, project: Project) {
+    if (!judge.hasProjects || !judge.hasProjects.includes(project.id)) {
       if (!judge.hasProjects) {
         judge.hasProjects = [];
       }

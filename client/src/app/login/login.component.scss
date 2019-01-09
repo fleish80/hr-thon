@@ -6,47 +6,9 @@
   max-width: 500px;
   min-width: 250px;
 }
- 
-.mat-card-header {
-    justify-content: center;
-}
 
 .mat-card-content {
   display: flex;
   flex-direction: column;
+  width: 100%;
 }
-
-// .mat-spinner {
-//   position: absolute;
-//   top: calc(50% - 50px);
-//   right: calc(50% - 50px);
-//   display: none;
-// }
-
-// :host.in {
-//   .mat-spinner {
-//     display: block;
-//   }
-
-//   .card-content {
-//     visibility: hidden;
-//   }
-// }
-
-// .mat-card-title {
-//   text-align: center;
-// }
-
-// .mat-card {
-//   width: 500px;
-// }
-
-// form {
-//   display: contents;
-// }
-
-// .mat-card-footer {
-//   display: flex;
-//   justify-content: space-between;
-//   margin: 0;
-// }
