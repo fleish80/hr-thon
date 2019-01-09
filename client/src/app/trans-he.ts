@@ -13,7 +13,7 @@ export const trans = ({
     chooseProject: 'אנא בחר פרוייקט מתוך רשימת הפרוייקטים אשר מטה ודרג כל פרוייקט בנפרד, אנא הקפד לדרג את כל הפרוייקטים ברשימה',
     rate: 'שלח דירוג',
     errorHapened: 'אירעה שגיאה, אנא פנה לאחראי',
-    projectRegistred: 'תודה על הדירג של היוזמה {{projectName}}, הדירוג שלך נרשם בהצלחה',
-    chooseRating: 'אנא בחר דירוג'
-
+    projectRegistred: 'תודה על הדירג של היוזמה: {{projectName}}, הדירוג שלך נרשם בהצלחה',
+    chooseRating: 'אנא בחר דירוג',
+    clauseRequird: 'אנא בחר דירוג'
 });

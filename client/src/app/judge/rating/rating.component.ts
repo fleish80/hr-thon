@@ -12,7 +12,7 @@ export class RatingComponent implements OnInit {
 
   @Input() clauses: Clause[];
   @Output() update = new EventEmitter<Clause[]>();
-  clausesMap: Map<string, number> = new Map<string, number>();
+  ctrlMap: Map<string, FormControl> = new Map<string, FormControl>();
   form: FormGroup;
 
   constructor(private formBuilder: FormBuilder) { }
@@ -21,8 +21,12 @@ export class RatingComponent implements OnInit {
     this.form = this.formBuilder.group({});
     if (this.clauses) {
       this.clauses.forEach((clause: Clause) => {
-        const formControl = new FormControl(clause.rating || 0, [Validators.required]);
+        const formControl = new FormControl(clause.rating || 0,
+          [Validators.required,
+          Validators.min(1),
+          Validators.max(10)]);
         formControl.valueChanges.subscribe((value: number) => { clause.rating = value; });
+        this.ctrlMap.set(clause.title, formControl);
         this.form.addControl(clause.title, formControl);
       });
     }

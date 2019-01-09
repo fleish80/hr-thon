@@ -3,9 +3,16 @@
     <ul>
       <li *ngFor="let clause of clauses">
         <span>{{clause.title | translate}}</span>
-        <star-rating-control [starType]="'svg'" [numOfStars]="10" formControlName="{{clause.title}}" staticColor="ok"></star-rating-control>
+        <star-rating-control
+        *ngIf="ctrlMap.has(clause.title)"
+        [starType]="'svg'"
+        [numOfStars]="10"
+        [size]="'large'"
+        [formControl]="ctrlMap.get(clause.title)"
+        staticColor="ok"></star-rating-control>
         <span>{{form.value[clause.title]}}/10</span>
       </li>
+      <mat-card-error *ngIf="trlMap.get(clause.title).valid"></mat-card-error>
     </ul>
   </mat-card-content>
   <mat-card-actions>

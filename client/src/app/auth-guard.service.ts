@@ -28,10 +28,10 @@ export class AuthGuardService implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
     const uid = route.params.uid;
     return this.onAuthStateChanged$.pipe(
-      tap(user => {
-        console.log(user.uid);
-        if (!user || user.uid !== uid) { this.router.navigate(['/login']); }
-      }),
-      map(user => { return !!user && user.uid === uid; }))
+      map(user => { return !!user && user.uid === uid; }),
+      tap(ans => {
+        if (!ans) { this.router.navigate(['/login']); }
+      })
+    )
   }
 }
