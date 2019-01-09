@@ -1,12 +1,16 @@
-<form [formGroup]="form" (ngSubmit)="submit()">
+<form [formGroup]="form" #f="ngForm" (ngSubmit)="submit()">
   <mat-card-content>
-    <ul>
-      <li *ngFor="let clause of clauses">
-        <span>{{clause.title | translate}}</span>
-        <star-rating-control *ngIf="ctrlMap.has(clause.title)" [starType]="'svg'" [numOfStars]="10" [size]="'large'"
-          [formControl]="ctrlMap.get(clause.title)" staticColor="ok"></star-rating-control>
-        <span>{{form.value[clause.title]}}/10</span>
-        <mat-error *ngIf="ctrlMap.get(clause.title).valid"></mat-error>
+    <ul class="clauses-list">
+      <li class="clauses-list-li" *ngFor="let clause of clauses">
+        <ng-template [ngIf]="ctrlMap.has(clause.title)">
+          <span class="title">{{clause.title | translate}}</span>
+          <div class="stars">
+            <star-rating-control [starType]="'svg'" [numOfStars]="10" [size]="'large'" [formControl]="ctrlMap.get(clause.title)"
+              staticColor="ok"></star-rating-control>
+            <span>{{form.value[clause.title]}}/10</span>
+          </div>
+          <mat-error *ngIf="f.submitted && ctrlMap.get(clause.title).invalid">{{'chooseRating' | translate}}</mat-error>
+        </ng-template>
       </li>
     </ul>
   </mat-card-content>

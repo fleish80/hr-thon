@@ -14,6 +14,5 @@ export const trans = ({
     rate: 'שלח דירוג',
     errorHapened: 'אירעה שגיאה, אנא פנה לאחראי',
     projectRegistred: 'תודה על הדירג של היוזמה: {{projectName}}, הדירוג שלך נרשם בהצלחה',
-    chooseRating: 'אנא בחר דירוג',
-    clauseRequird: 'אנא בחר דירוג'
+    chooseRating: 'אנא בחר דירוג'
 });

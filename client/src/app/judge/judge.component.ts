@@ -16,7 +16,7 @@ export class JudgeComponent implements OnInit {
 
   uid: string;
   values$: Observable<any>;
-  clausesMap: Map<number, Clause[]> = new Map<number, Clause[]>();
+  clausesMap: Map<number, Observable<Clause[]>> = new Map<number, Observable<Clause[]>>();
   projectLoading: number;
 
   constructor(private activeRoute: ActivatedRoute,
@@ -53,11 +53,10 @@ export class JudgeComponent implements OnInit {
     const hastProjects = judge.hasProjects;
     for (let project of projects) {
       if (hastProjects && hastProjects.includes(project.id)) {
-        this.firebaseService.getClausesByJudgeAndProject(judge, project).subscribe((clauses: Clause[]) => {
-          this.clausesMap.set(project.id, clauses);
-        })
+        const clauses$ = this.firebaseService.getClausesByJudgeAndProject(judge, project);
+        this.clausesMap.set(project.id, clauses$);
       } else {
-        this.clausesMap.set(project.id, clauses);
+        this.clausesMap.set(project.id, of(clauses));
       }
     }
   }

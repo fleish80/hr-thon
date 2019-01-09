@@ -9,8 +9,8 @@
         <mat-expansion-panel-header>
           <mat-panel-title><strong>{{project.desc}}</strong></mat-panel-title>
         </mat-expansion-panel-header>
-        <app-rating *ngIf="clausesMap.has(project.id) && projectLoading !== project.id"
-        [clauses]="clausesMap.get(project.id)"
+        <app-rating *ngIf="projectLoading !== project.id && clausesMap.get(project.id) | async as clauses"
+        [clauses]="clauses"
         (update)="updateRating(values.judge, project, $event)"></app-rating>
         <mat-spinner class="spinner-rating" *ngIf="projectLoading === project.id"></mat-spinner>
       </mat-expansion-panel>
