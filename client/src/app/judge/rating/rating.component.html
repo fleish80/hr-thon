@@ -12,7 +12,7 @@
         staticColor="ok"></star-rating-control>
         <span>{{form.value[clause.title]}}/10</span>
       </li>
-      <mat-card-error *ngIf="trlMap.get(clause.title).valid"></mat-card-error>
+      <mat-error *ngIf="trlMap.get(clause.title).valid"></mat-error>
     </ul>
   </mat-card-content>
   <mat-card-actions>
