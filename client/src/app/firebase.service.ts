@@ -128,7 +128,7 @@ export class FirebaseService {
     );
     const projectAvg: number = projectTotal.rating / 100;
     return this.db
-      .collection("results")
+      .collection("projects-average")
       .doc(judge.uid)
       .collection("projects")
       .doc(project.id.toString())
