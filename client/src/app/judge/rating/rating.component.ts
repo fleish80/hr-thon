@@ -25,7 +25,6 @@ export class RatingComponent implements OnInit {
           [Validators.required,
           Validators.min(1),
           Validators.max(10)]);
-        formControl.valueChanges.subscribe((value: number) => { clause.rating = value; });
         this.ctrlMap.set(clause.title, formControl);
         this.form.addControl(clause.title, formControl);
       });
