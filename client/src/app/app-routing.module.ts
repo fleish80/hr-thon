@@ -1,9 +1,8 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { NotFoundComponent } from './not-found/not-found.component';
-import { LoginComponent } from './login/login.component';
-import { JudgeComponent } from './judge/judge.component';
+import { RouterModule, Routes } from '@angular/router';
 import { AuthGuardService } from './auth-guard.service';
+import { JudgeComponent } from './judge/judge.component';
+import { LoginComponent } from './login/login.component';
 
 const routes: Routes = [
   {
@@ -22,7 +21,7 @@ const routes: Routes = [
   },
   {
     path: '**',
-    component: NotFoundComponent
+    component: LoginComponent
   }
 ];
 

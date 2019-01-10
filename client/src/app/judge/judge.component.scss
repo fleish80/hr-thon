@@ -3,11 +3,16 @@
 :host {
   display: block;
   margin: 0 auto;
-  max-width: 800px;
+  max-width: 767px;
   min-width: 250px;
 }
  
 .mat-expansion-panel-body {
   display: flex;
   justify-content: center; 
+}
+
+.mat-expansion-panel-header-title {
+  font-size: 1.5rem;
+  font-family: $font-family-arial;
 }

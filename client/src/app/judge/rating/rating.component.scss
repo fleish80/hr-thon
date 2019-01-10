@@ -1,3 +1,5 @@
+@import '../../variables';
+
 .clauses-list {
     list-style: none;
     padding: 0;
@@ -7,18 +9,31 @@
     display: flex;
     align-items: center;
     flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: 30px;
+    &:last-child {
+        margin-bottom: 0;
+    }
 }
 
 .title {
-    flex-basis: 35%;
+    flex-basis: 40%;
+    font-size: 1.2rem;
+    font-family: $font-family-arial;
 }
 
 .stars {
-    flex-basis: 65%;
+    flex-basis: 60%;
     display: flex;
     align-items: center;
+    position: relative;
 }
 
+.numeric-result {
+    font-size: 1.2rem;
+}
 .mat-error {
-    flex-basis: 100%;
+    position: absolute;
+    top: 35px;
+    right: 10px;
 }

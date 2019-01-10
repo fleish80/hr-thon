@@ -10,18 +10,16 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { MaterialModule } from './material.module';
-import { NotFoundComponent } from './not-found/not-found.component';
 import { JudgeComponent } from './judge/judge.component';
 import { RatingComponent } from './judge/rating/rating.component';
 import { AngularFirestore } from '@angular/fire/firestore';
-import {StarRatingModule} from 'angular-star-rating';
+import { StarRatingModule } from 'angular-star-rating';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    NotFoundComponent,
     JudgeComponent,
     RatingComponent
   ],
