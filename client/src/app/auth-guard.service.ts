@@ -1,8 +1,9 @@
-import { catchError, tap, map } from 'rxjs/operators';
+import { catchError, tap, map, switchMap } from 'rxjs/operators';
 import { Injectable } from "@angular/core";
 import { CanActivate, RouterStateSnapshot, ActivatedRouteSnapshot, Router } from "@angular/router";
 import { Observable, of } from 'rxjs';
 import { FirebaseService } from './firebase.service';
+import { Judge } from './judge';
 
 @Injectable({
   providedIn: "root"
@@ -28,7 +29,12 @@ export class AuthGuardService implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
     const uid = route.params.uid;
     return this.onAuthStateChanged$.pipe(
-      map(user => { return !!user && user.uid === uid; }),
+      switchMap(user => {
+        return this.firebaseService.getJudge(user.uid).pipe(
+          map((judge: Judge) => {
+            return !!judge && (judge.uid === uid || judge.admin);
+          }))
+      }),
       tap(ans => {
         if (!ans) { this.router.navigate(['/login']); }
       })

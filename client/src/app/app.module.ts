@@ -14,6 +14,7 @@ import { JudgeComponent } from './judge/judge.component';
 import { RatingComponent } from './judge/rating/rating.component';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { StarRatingModule } from 'angular-star-rating';
+import { AdminComponent } from './admin/admin.component';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { StarRatingModule } from 'angular-star-rating';
     AppComponent,
     LoginComponent,
     JudgeComponent,
-    RatingComponent
+    RatingComponent,
+    AdminComponent
   ],
   imports: [
     BrowserModule,

@@ -65,9 +65,9 @@ export class JudgeComponent implements OnInit {
     try {
       this.projectLoading = project.id;
       await this.firebaseService.setRating(judge, project, clauses);
-      this.firebaseService.updateHasProject(judge, project);
+      await this.firebaseService.updateHasProject(judge, project);
+      // await this.firebaseService.setProjectAvg(judge, project, clauses);
       this.projectLoading = null;
-      console.log(project.desc);
       const message = this.translateService.instant('projectRegistred', {projectName: project.desc});
       this.snackBarService.openSuccess(message);
     }

@@ -34,6 +34,9 @@ export class RatingComponent implements OnInit {
 
   submit() {
     if (this.form.valid) {
+      this.clauses.forEach((clause: Clause) => {
+        clause.rating = this.form.value[clause.title];
+      });
       this.update.emit(this.clauses);
     }
   }

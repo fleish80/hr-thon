@@ -1,14 +1,13 @@
-import { SnackBarService } from './snack-bar.service';
 import { Injectable } from '@angular/core';
+import { FirebaseAuth } from '@angular/fire';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { AngularFirestore, DocumentChangeAction } from '@angular/fire/firestore';
+import { AngularFirestore, DocumentChangeAction, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Clause } from './clause';
 import { Judge } from './judge';
 import { Login } from './login';
-import * as firebase from 'firebase';
-import { FirebaseAuth } from '@angular/fire';
+import { SnackBarService } from './snack-bar.service';
 
 @Injectable({
   providedIn: 'root'
@@ -53,52 +52,61 @@ export class FirebaseService {
       map((changes: DocumentChangeAction<Clause>[]) => {
         return changes.map((change: DocumentChangeAction<Clause>) => {
           const title = change.payload.doc.id;
-          return { title } as Clause;
+          const data = change.payload.doc.data();
+          return { title, ...data } as Clause;
         });
       }
       ));
   }
 
   setRating(judge: Judge, project: Project, clauses: Clause[]): Promise<any> {
+    const projectTotal: Clause = clauses.reduce((acc: Clause, clause: Clause) => {
+      return { rating: acc.rating + clause.rating * clause.percent };
+    }, { rating: 0 });
+    const projectAvg: number = projectTotal.rating / 100;
     return Promise.all(
       clauses.map((clause: Clause) => {
-        this.db
-        .collection('results').doc(judge.uid)
-        .collection('projects').doc(project.id.toString())
-        .collection('clauses').doc(clause.title).set({
-          rating: clause.rating
-        });
+        const afd: AngularFirestoreDocument = this.db
+        .collection('projectsAvg').doc(judge.uid)
+        .collection('projects').doc(project.id.toString());
+          afd.set({
+            ratingAvg: projectAvg
+          });
+          this.db
+          .collection('results').doc(judge.uid)
+          .collection('projects').doc(project.id.toString())
+          .collection('clauses').doc(clause.title).set({
+            rating: clause.rating,
+            percent: clause.percent
+          });
       })
-    )
-    // for (let clause of clauses) {
-    //   this.db
-    //     .collection('results').doc(judge.uid)
-    //     .collection('projects').doc(project.id.toString())
-    //     .collection('clauses').doc(clause.title).set({
-    //       rating: clause.rating
-    //     });
-    // };
-    // if (!judge.hasProjects || !judge.hasProjects.includes(project.id)) {
-    //   if (!judge.hasProjects) {
-    //     judge.hasProjects = [];
-    //   }
-    //   judge.hasProjects.push(project.id);
-    //   this.db.doc(`judges/${judge.uid}`).update({
-    //     hasProjects: judge.hasProjects
-    //   })
-    // }
+    );
   }
 
-  updateHasProject(judge: Judge, project: Project) {
+  updateHasProject(judge: Judge, project: Project): Promise<any> {
+    let promise: Promise<any> = null;
     if (!judge.hasProjects || !judge.hasProjects.includes(project.id)) {
       if (!judge.hasProjects) {
         judge.hasProjects = [];
       }
       judge.hasProjects.push(project.id);
-      this.db.doc(`judges/${judge.uid}`).update({
+      promise = this.db.doc(`judges/${judge.uid}`).update({
         hasProjects: judge.hasProjects
       })
     }
+    return promise;
+  }
+
+  setProjectAvg(judge: Judge, project: Project, clauses: Clause[]): Promise<any> {
+    const projectTotal: Clause = clauses.reduce((acc: Clause, clause: Clause) => {
+      return { rating: acc.rating + clause.rating * clause.percent };
+    }, { rating: 0 });
+    const projectAvg: number = projectTotal.rating / 100;
+    return this.db
+      .collection('results').doc(judge.uid)
+      .collection('projects').doc(project.id.toString()).set({
+        ratingAvg: projectAvg
+      });
   }
 
   getClausesByJudgeAndProject(judge: Judge, project: Project): Observable<Clause[]> {
