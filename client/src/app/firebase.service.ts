@@ -67,10 +67,10 @@ export class FirebaseService {
     return Promise.all(
       clauses.map((clause: Clause) => {
         const afd: AngularFirestoreDocument = this.db
-        .collection('projectsAvg').doc(judge.uid)
+        .collection('projectsAvgs').doc(judge.uid)
         .collection('projects').doc(project.id.toString());
           afd.set({
-            ratingAvg: projectAvg
+            average: projectAvg
           });
           this.db
           .collection('results').doc(judge.uid)
