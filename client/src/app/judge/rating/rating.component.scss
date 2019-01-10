@@ -14,12 +14,18 @@
     &:last-child {
         margin-bottom: 0;
     }
+    @include mobile() {
+        flex-direction: column;
+    }
 }
 
 .title {
     flex-basis: 40%;
     font-size: 1.2rem;
     font-family: $font-family-arial;
+    @include mobile() {
+        text-align: center;
+    }
 }
 
 .stars {
@@ -27,13 +33,26 @@
     display: flex;
     align-items: center;
     position: relative;
+    width: 100%;
+    @include mobile() {
+        flex-direction: column;
+    }
 }
 
 .numeric-result {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
+    width: 70px;
+    text-align: center;
 }
 .mat-error {
     position: absolute;
-    top: 35px;
-    right: 10px;
+    top: 20px;
+    right: 7px;
+    @include mobile() {
+        position: static;
+    }
+}
+
+star-rating-control {
+    width: 100%;
 }
