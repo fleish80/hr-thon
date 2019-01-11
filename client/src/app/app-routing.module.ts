@@ -13,7 +13,7 @@ const routes: Routes = [
   {
     path: 'judge/:uid',
     component: JudgeComponent,
-    canActivate: [AuthGuardService],
+    canActivate: [AuthGuardService]
   },
   {
     path: '',
@@ -22,7 +22,7 @@ const routes: Routes = [
   },
   {
     path: 'admin',
-    component: AdminComponent,
+    component: AdminComponent
   },
   {
     path: '**',
@@ -34,4 +34,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

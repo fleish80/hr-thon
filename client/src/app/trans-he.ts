@@ -20,4 +20,7 @@ export const trans = ({
     summaryNumber: 'ציון מסכם',
     judgesList: 'שופטים',
     judgesSubList: 'בחר שופט ולחץ על הכפתור על מנת לראות את הדירוד שלו',
+    judgeError: 'חובה לבחור שופט',
+    judge: 'שופט',
+    watchJudge: 'צפה בדירוגים של השופא'
 });

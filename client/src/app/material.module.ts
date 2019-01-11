@@ -22,6 +22,6 @@ import { CdkTableModule } from '@angular/cdk/table';
     MatProgressSpinnerModule,
     MatSnackBarModule,
     MatTableModule,
-    CdkTableModule]
+    MatSelectModule]
 })
 export class MaterialModule { }

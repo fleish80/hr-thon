@@ -1,7 +1,11 @@
 import { Injectable } from '@angular/core';
 import { FirebaseAuth } from '@angular/fire';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { AngularFirestore, AngularFirestoreCollection, DocumentChangeAction } from '@angular/fire/firestore';
+import {
+  AngularFirestore,
+  AngularFirestoreCollection,
+  DocumentChangeAction
+} from '@angular/fire/firestore';
 import { combineLatest, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { Clause } from './clause';
@@ -126,7 +130,11 @@ export class FirebaseService {
     return promise;
   }
 
-  setProjectAvg(judge: Judge, project: Project, clauses: Clause[]): Promise<any> {
+  setProjectAvg(
+    judge: Judge,
+    project: Project,
+    clauses: Clause[]
+  ): Promise<any> {
     const projectTotal: Clause = clauses.reduce(
       (acc: Clause, clause: Clause) => {
         return { rating: acc.rating + clause.rating * clause.percent };
@@ -156,13 +164,13 @@ export class FirebaseService {
             return collection
               .doc(judge.uid)
               .valueChanges()
-              .pipe(
-                map((project: Project) => project && project.average)
-              );
+              .pipe(map((p: Project) => p && p.average));
           })
         );
       }),
-      map((averages: number[]) => averages.filter((average: number) => !!average)),
+      map((averages: number[]) =>
+        averages.filter((average: number) => !!average)
+      ),
       map((averages: number[]) => {
         const summary =
           averages.reduce((acc: number, curr: number) => acc + curr, 0) /

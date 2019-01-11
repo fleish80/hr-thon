@@ -3,6 +3,7 @@ import { FirebaseService } from '../firebase.service';
 import { Observable } from 'rxjs';
 import { Judge } from '../judge';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
+import { Router } from '@angular/router';
 
 export interface PeriodicElement {
   name: string;
@@ -31,7 +32,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
 })
 export class AdminComponent implements OnInit {
 
-  constructor(private firebaseService: FirebaseService, private fb: FormBuilder) { }
+  constructor(private firebaseService: FirebaseService, private fb: FormBuilder, private router: Router) { }
 
   projects$: Observable<Project[]>;
   judges$: Observable<Judge[]>;
@@ -48,6 +49,13 @@ export class AdminComponent implements OnInit {
     this.form = this.fb.group({
       judgesCtrl: this.judgesCtrl
     });
+  }
+
+  submit() {
+    if (this.form.valid) {
+      const uid = this.judgesCtrl.value;
+      this.router.navigate(['judge', uid]);
+    }
   }
 
 }
