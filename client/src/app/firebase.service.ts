@@ -1,29 +1,16 @@
-import { Injectable } from "@angular/core";
-import { FirebaseAuth } from "@angular/fire";
-import { AngularFireAuth } from "@angular/fire/auth";
-import {
-  AngularFirestore,
-  DocumentChangeAction,
-  AngularFirestoreDocument,
-  AngularFirestoreCollection
-} from "@angular/fire/firestore";
-import { Observable, of, combineLatest } from "rxjs";
-import {
-  map,
-  take,
-  takeLast,
-  tap,
-  switchMap,
-  combineAll,
-  filter
-} from "rxjs/operators";
-import { Clause } from "./clause";
-import { Judge } from "./judge";
-import { Login } from "./login";
-import { SnackBarService } from "./snack-bar.service";
+import { Injectable } from '@angular/core';
+import { FirebaseAuth } from '@angular/fire';
+import { AngularFireAuth } from '@angular/fire/auth';
+import { AngularFirestore, AngularFirestoreCollection, DocumentChangeAction } from '@angular/fire/firestore';
+import { combineLatest, Observable } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
+import { Clause } from './clause';
+import { Judge } from './judge';
+import { Login } from './login';
+import { SnackBarService } from './snack-bar.service';
 
 @Injectable({
-  providedIn: "root"
+  providedIn: 'root'
 })
 export class FirebaseService {
   constructor(
@@ -57,7 +44,7 @@ export class FirebaseService {
 
   getJudges(): Observable<Judge[]> {
     return this.db
-      .collection<Judge>("judges")
+      .collection<Judge>('judges')
       .snapshotChanges()
       .pipe(
         map((changes: DocumentChangeAction<Judge>[]) => {
@@ -72,7 +59,7 @@ export class FirebaseService {
 
   getProjects(): Observable<Project[]> {
     return this.db
-      .collection<Project>("projects")
+      .collection<Project>('projects')
       .snapshotChanges()
       .pipe(
         map((changes: DocumentChangeAction<Project>[]) => {
@@ -87,7 +74,7 @@ export class FirebaseService {
 
   getClauses(): Observable<Clause[]> {
     return this.db
-      .collection<Clause>("clauses")
+      .collection<Clause>('clauses')
       .snapshotChanges()
       .pipe(
         map((changes: DocumentChangeAction<Clause>[]) => {
@@ -111,11 +98,11 @@ export class FirebaseService {
     return Promise.all(
       clauses.map((clause: Clause) => {
         return this.db
-          .collection("results")
+          .collection('results')
           .doc(judge.uid)
-          .collection("projects")
+          .collection('projects')
           .doc(project.id.toString())
-          .collection("clauses")
+          .collection('clauses')
           .doc(clause.title)
           .set({
             rating: clause.rating,
@@ -148,9 +135,9 @@ export class FirebaseService {
     );
     const projectAvg: number = projectTotal.rating / 100;
     return this.db
-      .collection("projects-average")
+      .collection('projects-average')
       .doc(project.id.toString())
-      .collection("judges")
+      .collection('judges')
       .doc(judge.uid)
       .set({
         average: projectAvg
@@ -159,9 +146,9 @@ export class FirebaseService {
 
   setSummary(project: Project): Observable<Promise<any>> {
     const collection: AngularFirestoreCollection = this.db
-      .collection("projects-average")
+      .collection('projects-average')
       .doc(project.id.toString())
-      .collection("judges");
+      .collection('judges');
     return this.getJudges().pipe(
       switchMap((judges: Judge[]) => {
         return combineLatest(
@@ -181,7 +168,7 @@ export class FirebaseService {
           averages.reduce((acc: number, curr: number) => acc + curr, 0) /
           averages.length;
         return this.db
-          .collection("projects")
+          .collection('projects')
           .doc(project.id.toString())
           .update({ summary: summary });
       })
@@ -193,11 +180,11 @@ export class FirebaseService {
     project: Project
   ): Observable<Clause[]> {
     return this.db
-      .collection("results")
+      .collection('results')
       .doc(judge.uid)
-      .collection("projects")
+      .collection('projects')
       .doc(project.id.toString())
-      .collection("clauses")
+      .collection('clauses')
       .auditTrail()
       .pipe(
         map((changes: DocumentChangeAction<Clause>[]) => {

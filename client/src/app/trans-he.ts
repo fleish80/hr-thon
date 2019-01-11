@@ -15,5 +15,9 @@ export const trans = ({
     errorHapened: 'אירעה שגיאה, אנא פנה לאחראי',
     projectRegistred: 'תודה על הדירג של היוזמה: {{projectName}}, הדירוג שלך נרשם בהצלחה',
     chooseRating: 'אנא בחר דירוג',
-    summaryTable: 'טבלת סיכום'
+    summaryTable: 'טבלת סיכום',
+    projectName: 'שם הפרוייקט',
+    summaryNumber: 'ציון מסכם',
+    judgesList: 'שופטים',
+    judgesSubList: 'בחר שופט ולחץ על הכפתור על מנת לראות את הדירוד שלו',
 });

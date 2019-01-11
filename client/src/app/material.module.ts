@@ -4,8 +4,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
   MatButtonModule, MatCardModule,
   MatFormFieldModule, MatGridListModule, MatIconModule, MatInputModule,
-  MatMenuModule, MatRippleModule, MatSelectModule, MatProgressSpinnerModule, MatSnackBarModule, MatExpansionModule
+  MatMenuModule, MatRippleModule, MatSelectModule, MatProgressSpinnerModule, MatSnackBarModule, MatExpansionModule, MatTableModule
 } from '@angular/material';
+import { CdkTableModule } from '@angular/cdk/table';
 
 @NgModule({
   declarations: [],
@@ -19,6 +20,8 @@ import {
     MatButtonModule,
     MatExpansionModule,
     MatProgressSpinnerModule,
-    MatSnackBarModule]
+    MatSnackBarModule,
+    MatTableModule,
+    CdkTableModule]
 })
 export class MaterialModule { }

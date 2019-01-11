@@ -1,21 +1,24 @@
-import { TranslateService } from "@ngx-translate/core";
-import { FirebaseService } from "./../firebase.service";
-import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute, Params } from "@angular/router";
-import { combineLatest, Observable, of } from "rxjs";
-import { map, tap, catchError } from "rxjs/operators";
-import { Clause } from "../clause";
-import { SnackBarService } from "../snack-bar.service";
+import { TranslateService } from '@ngx-translate/core';
+import { FirebaseService } from './../firebase.service';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
+import { combineLatest, Observable, of } from 'rxjs';
+import { map, tap, catchError } from 'rxjs/operators';
+import { Clause } from '../clause';
+import { SnackBarService } from '../snack-bar.service';
 
 @Component({
-  selector: "app-judge",
-  templateUrl: "./judge.component.html",
-  styleUrls: ["./judge.component.scss"]
+  selector: 'app-judge',
+  templateUrl: './judge.component.html',
+  styleUrls: ['./judge.component.scss']
 })
 export class JudgeComponent implements OnInit {
   uid: string;
   values$: Observable<any>;
-  clausesMap: Map<number, Observable<Clause[]>> = new Map<number,Observable<Clause[]>>();
+  clausesMap: Map<number, Observable<Clause[]>> = new Map<
+    number,
+    Observable<Clause[]>
+  >();
   projectLoading: number;
 
   constructor(
@@ -53,7 +56,7 @@ export class JudgeComponent implements OnInit {
 
   setClausesMap(judge, projects, clauses) {
     const hastProjects = judge.hasProjects;
-    for (let project of projects) {
+    for (const project of projects) {
       if (hastProjects && hastProjects.includes(project.id)) {
         const clauses$ = this.firebaseService.getClausesByJudgeAndProject(
           judge,
@@ -73,15 +76,15 @@ export class JudgeComponent implements OnInit {
       await this.firebaseService.updateHasProject(judge, project);
       await this.firebaseService.setProjectAvg(judge, project, clauses);
       this.firebaseService.setSummary(project).subscribe(
-      //   data => {
-      //   console.log('data', data);
-      //   this.projectLoading = null;
-      // },
+        //   data => {
+        //   console.log('data', data);
+        //   this.projectLoading = null;
+        // },
         async (promise: Promise<any>) => {
           try {
             await promise;
             this.projectLoading = null;
-            const message = this.translateService.instant("projectRegistred", {
+            const message = this.translateService.instant('projectRegistred', {
               projectName: project.desc
             });
             this.snackBarService.openSuccess(message);
