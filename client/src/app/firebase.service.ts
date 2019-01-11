@@ -7,7 +7,7 @@ import {
   AngularFirestoreDocument
 } from "@angular/fire/firestore";
 import { Observable } from "rxjs";
-import { map, take, takeLast } from "rxjs/operators";
+import { map, take, takeLast, tap } from "rxjs/operators";
 import { Clause } from "./clause";
 import { Judge } from "./judge";
 import { Login } from "./login";
@@ -123,18 +123,29 @@ export class FirebaseService {
     const projectTotal: Clause = clauses.reduce(
       (acc: Clause, clause: Clause) => {
         return { rating: acc.rating + clause.rating * clause.percent };
-      },
-      { rating: 0 }
-    );
+      },{ rating: 0 });
     const projectAvg: number = projectTotal.rating / 100;
     return this.db
-      .collection("projects-average")
-      .doc(judge.uid)
-      .collection("projects")
-      .doc(project.id.toString())
+      .collection("projects-average").doc(judge.uid)
+      .collection("projects").doc(project.id.toString())
       .set({
         average: projectAvg
       });
+  }
+
+  setSummary(judge: Judge): Observable<Promise<any>> {
+    return this.db.collection('projects-average').doc(judge.uid)
+    .collection('projects').valueChanges().pipe(
+      map(data => {
+        const averages: number[] = data.map((project: Project) => project.average);
+        const summary = averages.reduce((acc: number, curr: number) => acc + curr, 0) / averages.length;
+        return this.db
+        .collection('judges').doc(judge.uid)
+        .update({
+          summary: summary
+        })
+      })
+    )
   }
 
   getClausesByJudgeAndProject(
@@ -142,13 +153,9 @@ export class FirebaseService {
     project: Project
   ): Observable<Clause[]> {
     return this.db
-      .collection("results")
-      .doc(judge.uid)
-      .collection("projects")
-      .doc(project.id.toString())
-      .collection("clauses")
-      .auditTrail()
-      .pipe(
+      .collection("results").doc(judge.uid)
+      .collection("projects").doc(project.id.toString())
+      .collection("clauses").auditTrail().pipe(
         map((changes: DocumentChangeAction<Clause>[]) => {
           return changes.map((change: DocumentChangeAction<Clause>) => {
             const title = change.payload.doc.id;
