@@ -4,10 +4,19 @@ import { AngularFireAuth } from "@angular/fire/auth";
 import {
   AngularFirestore,
   DocumentChangeAction,
-  AngularFirestoreDocument
+  AngularFirestoreDocument,
+  AngularFirestoreCollection
 } from "@angular/fire/firestore";
-import { Observable } from "rxjs";
-import { map, take, takeLast, tap } from "rxjs/operators";
+import { Observable, of, combineLatest } from "rxjs";
+import {
+  map,
+  take,
+  takeLast,
+  tap,
+  switchMap,
+  combineAll,
+  filter
+} from "rxjs/operators";
 import { Clause } from "./clause";
 import { Judge } from "./judge";
 import { Login } from "./login";
@@ -42,6 +51,21 @@ export class FirebaseService {
         map((judge: Judge) => {
           judge.uid = uid;
           return judge;
+        })
+      );
+  }
+
+  getJudges(): Observable<Judge[]> {
+    return this.db
+      .collection<Judge>("judges")
+      .snapshotChanges()
+      .pipe(
+        map((changes: DocumentChangeAction<Judge>[]) => {
+          return changes.map((change: DocumentChangeAction<Judge>) => {
+            const uid = change.payload.doc.id;
+            const data = change.payload.doc.data();
+            return { uid, ...data } as Judge;
+          });
         })
       );
   }
@@ -115,37 +139,53 @@ export class FirebaseService {
     return promise;
   }
 
-  setProjectAvg(
-    judge: Judge,
-    project: Project,
-    clauses: Clause[]
-  ): Promise<any> {
+  setProjectAvg(judge: Judge, project: Project, clauses: Clause[]): Promise<any> {
     const projectTotal: Clause = clauses.reduce(
       (acc: Clause, clause: Clause) => {
         return { rating: acc.rating + clause.rating * clause.percent };
-      },{ rating: 0 });
+      },
+      { rating: 0 }
+    );
     const projectAvg: number = projectTotal.rating / 100;
     return this.db
-      .collection("projects-average").doc(judge.uid)
-      .collection("projects").doc(project.id.toString())
+      .collection("projects-average")
+      .doc(project.id.toString())
+      .collection("judges")
+      .doc(judge.uid)
       .set({
         average: projectAvg
       });
   }
 
-  setSummary(judge: Judge): Observable<Promise<any>> {
-    return this.db.collection('projects-average').doc(judge.uid)
-    .collection('projects').valueChanges().pipe(
-      map(data => {
-        const averages: number[] = data.map((project: Project) => project.average);
-        const summary = averages.reduce((acc: number, curr: number) => acc + curr, 0) / averages.length;
+  setSummary(project: Project): Observable<Promise<any>> {
+    const collection: AngularFirestoreCollection = this.db
+      .collection("projects-average")
+      .doc(project.id.toString())
+      .collection("judges");
+    return this.getJudges().pipe(
+      switchMap((judges: Judge[]) => {
+        return combineLatest(
+          judges.map((judge: Judge) => {
+            return collection
+              .doc(judge.uid)
+              .valueChanges()
+              .pipe(
+                map((project: Project) => project && project.average)
+              );
+          })
+        );
+      }),
+      map((averages: number[]) => averages.filter((average: number) => !!average)),
+      map((averages: number[]) => {
+        const summary =
+          averages.reduce((acc: number, curr: number) => acc + curr, 0) /
+          averages.length;
         return this.db
-        .collection('judges').doc(judge.uid)
-        .update({
-          summary: summary
-        })
+          .collection("projects")
+          .doc(project.id.toString())
+          .update({ summary: summary });
       })
-    )
+    );
   }
 
   getClausesByJudgeAndProject(
@@ -153,9 +193,13 @@ export class FirebaseService {
     project: Project
   ): Observable<Clause[]> {
     return this.db
-      .collection("results").doc(judge.uid)
-      .collection("projects").doc(project.id.toString())
-      .collection("clauses").auditTrail().pipe(
+      .collection("results")
+      .doc(judge.uid)
+      .collection("projects")
+      .doc(project.id.toString())
+      .collection("clauses")
+      .auditTrail()
+      .pipe(
         map((changes: DocumentChangeAction<Clause>[]) => {
           return changes.map((change: DocumentChangeAction<Clause>) => {
             const title = change.payload.doc.id;

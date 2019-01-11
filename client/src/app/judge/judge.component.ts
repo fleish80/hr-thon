@@ -15,10 +15,7 @@ import { SnackBarService } from "../snack-bar.service";
 export class JudgeComponent implements OnInit {
   uid: string;
   values$: Observable<any>;
-  clausesMap: Map<number, Observable<Clause[]>> = new Map<
-    number,
-    Observable<Clause[]>
-  >();
+  clausesMap: Map<number, Observable<Clause[]>> = new Map<number,Observable<Clause[]>>();
   projectLoading: number;
 
   constructor(
@@ -75,7 +72,11 @@ export class JudgeComponent implements OnInit {
       await this.firebaseService.setRating(judge, project, clauses);
       await this.firebaseService.updateHasProject(judge, project);
       await this.firebaseService.setProjectAvg(judge, project, clauses);
-      this.firebaseService.setSummary(judge).subscribe(
+      this.firebaseService.setSummary(project).subscribe(
+      //   data => {
+      //   console.log('data', data);
+      //   this.projectLoading = null;
+      // },
         async (promise: Promise<any>) => {
           try {
             await promise;
