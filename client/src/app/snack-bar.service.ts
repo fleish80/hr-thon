@@ -13,7 +13,8 @@ export class SnackBarService {
   public openSuccess(message: string) {
     this.snackBar.open(message, '', {
       panelClass: ['toast-message', 'toast-success'],
-      duration: 5000
+      duration: 3000,
+      verticalPosition: 'top'
     });
   }
 
@@ -23,7 +24,8 @@ export class SnackBarService {
     }
     this.snackBar.open(message, null, {
       panelClass: ['toast-message', 'toast-failure'],
-      duration: 5000
+      duration: 3000,
+      verticalPosition: 'top'
     });
   }
 
