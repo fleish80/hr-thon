@@ -8,10 +8,10 @@ import {
 } from '@angular/fire/firestore';
 import { combineLatest, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { Clause } from './clause';
-import { Judge } from './judge';
-import { Login } from './login';
-import { SnackBarService } from './snack-bar.service';
+import { Clause } from '../../models/clause';
+import { Judge } from '../../models/judge';
+import { Login } from '../../models/login';
+import { SnackBarService } from '../snack-bar.service/snack-bar.service';
 
 @Injectable({
   providedIn: 'root'

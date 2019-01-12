@@ -1,12 +1,11 @@
-import { TranslateService } from '@ngx-translate/core';
-import { FirebaseService } from './../firebase.service';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { combineLatest, Observable, of, Subscriber } from 'rxjs';
-import { map, tap, catchError, take } from 'rxjs/operators';
-import { Clause } from '../clause';
-import { SnackBarService } from '../snack-bar.service';
-import { Judge } from '../judge';
+import { TranslateService } from '@ngx-translate/core';
+import { combineLatest, Subscriber } from 'rxjs';
+import { take } from 'rxjs/operators';
+import { Judge } from '../models/judge';
+import { SnackBarService } from '../services/snack-bar.service/snack-bar.service';
+import { FirebaseService } from '../services/firebase.service/firebase.service';
 
 @Component({
   selector: 'app-judge',

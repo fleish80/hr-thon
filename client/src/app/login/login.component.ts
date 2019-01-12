@@ -6,9 +6,9 @@ import {
   Validators
 } from '@angular/forms';
 import { Router } from '@angular/router';
-import { FirebaseService } from '../firebase.service';
-import { Login } from '../login';
-import { SnackBarService } from '../snack-bar.service';
+import { FirebaseService } from '../services/firebase.service/firebase.service';
+import { Login } from '../models/login';
+import { SnackBarService } from '../services/snack-bar.service/snack-bar.service';
 
 @Component({
   selector: 'app-login',

@@ -1,4 +1,4 @@
-import { FirebaseService } from './../../firebase.service';
+import { FirebaseService } from '../services/firebase.service/firebase.service';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -14,11 +14,11 @@ import {
   FormGroup,
   Validators
 } from '@angular/forms';
-import { Clause } from 'src/app/clause';
-import { Judge } from 'src/app/judge';
+import { Clause } from 'src/app/models/clause';
+import { Judge } from 'src/app/models/judge';
 import { Subscriber } from 'rxjs';
 import { finalize, take } from 'rxjs/operators';
-import { SnackBarService } from 'src/app/snack-bar.service';
+import { SnackBarService } from 'src/app/services/snack-bar.service/snack-bar.service';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({

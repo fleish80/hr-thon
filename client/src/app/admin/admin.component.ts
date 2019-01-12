@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FirebaseService } from '../firebase.service';
+import { FirebaseService } from '../services/firebase.service/firebase.service';
 import { Observable } from 'rxjs';
-import { Judge } from '../judge';
+import { Judge } from '../models/judge';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 

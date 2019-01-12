@@ -11,7 +11,7 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { MaterialModule } from './material.module';
 import { JudgeComponent } from './judge/judge.component';
-import { RatingComponent } from './judge/rating/rating.component';
+import { RatingComponent } from './rating/rating.component';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { StarRatingModule } from 'angular-star-rating';
 import { AdminComponent } from './admin/admin.component';
