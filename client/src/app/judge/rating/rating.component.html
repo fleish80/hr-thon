@@ -1,4 +1,4 @@
-<form [formGroup]="form" #f="ngForm" (ngSubmit)="submit()">
+<form [formGroup]="form" #f="ngForm" (ngSubmit)="submit()" *ngIf="!loading">
   <mat-card-content>
     <ul class="clauses-list">
       <li class="clauses-list-li" *ngFor="let clause of clauses">
@@ -6,7 +6,8 @@
           <span class="title">{{clause.title | translate}}</span>
           <div class="stars">
             <star-rating-control
-            [numOfStars]="10" 
+            [numOfStars]="5"
+            [size]="'large'"
             [formControl]="ctrlMap.get(clause.title)"
             [staticColor]="f.submitted && ctrlMap.get(clause.title).invalid ? 'negative' : 'ok'"
             [space]="'around'"></star-rating-control>
@@ -21,3 +22,5 @@
     <button mat-raised-button color="primary" type="submit">{{'rate' | translate}}</button>
   </mat-card-actions>
 </form>
+
+<mat-spinner *ngIf="loading"></mat-spinner>
