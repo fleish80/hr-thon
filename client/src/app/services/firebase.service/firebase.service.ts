@@ -110,7 +110,8 @@ export class FirebaseService {
           .doc(clause.title)
           .set({
             rating: clause.rating,
-            percent: clause.percent
+            percent: clause.percent,
+            desc: clause.desc
           });
       })
     );

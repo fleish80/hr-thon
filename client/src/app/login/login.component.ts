@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Subscriber } from 'rxjs';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -9,16 +10,18 @@ import { Router } from '@angular/router';
 import { FirebaseService } from '../services/firebase.service/firebase.service';
 import { Login } from '../models/login';
 import { SnackBarService } from '../services/snack-bar.service/snack-bar.service';
+import { Judge } from '../models/judge';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
   form: FormGroup;
   usernameCtrl: FormControl;
   passwordCtrl: FormControl;
+  subscriber = new Subscriber();
   loading = false;
 
   constructor(
@@ -30,6 +33,10 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     this.initForm();
+  }
+
+  ngOnDestroy(): void {
+    this.subscriber.unsubscribe();
   }
 
   initForm() {
@@ -48,7 +55,24 @@ export class LoginComponent implements OnInit {
         const credetionals: firebase.auth.UserCredential = await this.firebaseService.emailLogin(
           <Login>this.form.value
         );
-        this.router.navigate(['/judge', credetionals.user.uid]);
+        const uid: string = credetionals.user.uid;
+        this.subscriber.add(
+          this.firebaseService.getJudge(uid).subscribe(
+            (judge: Judge) => {
+              if (judge.admin) {
+                this.router.navigate(['/admin']);
+              } else {
+                this.router.navigate(['/judge', uid]);
+              }
+              this.loading = false;
+            },
+            (error: any) => {
+              console.error(error);
+              this.snackBarService.openFailure();
+              this.loading = false;
+            }
+          )
+        );
       } catch (e) {
         this.snackBarService.openFailure(e.message);
         this.loading = false;

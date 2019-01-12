@@ -46,8 +46,9 @@
 }
 .mat-error {
     position: absolute;
-    top: 20px;
-    right: 7px;
+    top: 33px;
+    right: 21px;
+    font-size: 1.2em;
     @include mobile() {
         position: static;
     }

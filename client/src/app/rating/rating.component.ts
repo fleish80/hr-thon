@@ -57,7 +57,7 @@ export class RatingComponent implements OnInit, OnDestroy {
       const formControl = new FormControl(clause.rating || 0, [
         Validators.required,
         Validators.min(1),
-        Validators.max(10)
+        Validators.max(5)
       ]);
       this.ctrlMap.set(clause.title, formControl);
       this.form.addControl(clause.title, formControl);
