@@ -193,7 +193,7 @@ export class FirebaseService {
       .collection('projects')
       .doc(project.id.toString())
       .collection('clauses')
-      .auditTrail()
+      .snapshotChanges()
       .pipe(
         map((changes: DocumentChangeAction<Clause>[]) => {
           return changes.map((change: DocumentChangeAction<Clause>) => {

@@ -1,20 +1,24 @@
 import { TranslateService } from '@ngx-translate/core';
 import { FirebaseService } from './../firebase.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { combineLatest, Observable, of } from 'rxjs';
-import { map, tap, catchError } from 'rxjs/operators';
+import { combineLatest, Observable, of, Subscriber } from 'rxjs';
+import { map, tap, catchError, take } from 'rxjs/operators';
 import { Clause } from '../clause';
 import { SnackBarService } from '../snack-bar.service';
+import { Judge } from '../judge';
 
 @Component({
   selector: 'app-judge',
   templateUrl: './judge.component.html',
   styleUrls: ['./judge.component.scss']
 })
-export class JudgeComponent implements OnInit {
+export class JudgeComponent implements OnInit, OnDestroy {
   uid: string;
-  values$: Observable<any>;
+  judge: Judge;
+  projects: Project[];
+  loading = true;
+  subscriber = new Subscriber();
 
   constructor(
     private activeRoute: ActivatedRoute,
@@ -29,18 +33,27 @@ export class JudgeComponent implements OnInit {
       if (this.uid) {
         const judge$ = this.firebaseService.getJudge(data.uid);
         const projects$ = this.firebaseService.getProjects();
-        this.values$ = combineLatest(judge$, projects$).pipe(
-          map(([judge, projects]) => ({
-            judge,
-            projects
-          })),
-          catchError(error => {
-            console.error(error);
+        this.subscriber.add(
+        combineLatest(judge$, projects$).pipe(take(1))
+        .subscribe(([judge, projects]) => {
+          if (!this.judge) {
+            this.judge = judge;
+          }
+          if (!this.projects) {
+            this.projects = projects;
+          }
+          this.loading = false;
+        },
+        (error: any) => {
+          console.error(error);
             this.snackBarService.openFailure();
-            return of(null);
-          })
-        );
+            this.loading = false;
+        }));
       }
     });
+  }
+
+  ngOnDestroy(): void {
+    this.subscriber.unsubscribe();
   }
 }
