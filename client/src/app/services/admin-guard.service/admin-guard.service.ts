@@ -8,7 +8,7 @@ import { FirebaseService } from '../firebase.service/firebase.service';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthGuardService implements CanActivate {
+export class AdminGuardService implements CanActivate {
   onAuthStateChanged$: Observable<any>;
 
   constructor(
@@ -39,7 +39,7 @@ export class AuthGuardService implements CanActivate {
       switchMap(user => {
         return this.firebaseService.getJudge(user.uid).pipe(
           map((judge: Judge) => {
-            return !!judge && (judge.uid === uid || judge.admin);
+            return !!judge && judge.admin;
           })
         );
       }),
