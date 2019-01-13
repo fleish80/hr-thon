@@ -4,6 +4,7 @@ import { AuthGuardService } from './services/auth-guard.service/auth-guard.servi
 import { JudgeComponent } from './judge/judge.component';
 import { LoginComponent } from './login/login.component';
 import { AdminComponent } from './admin/admin.component';
+import { AdminResolverService } from './services/admin-resolver.service/admin-resolver.service';
 
 const routes: Routes = [
   {
@@ -13,7 +14,10 @@ const routes: Routes = [
   {
     path: 'judge/:uid',
     component: JudgeComponent,
-    canActivate: [AuthGuardService]
+    canActivate: [AuthGuardService],
+    resolve: {
+      admin: AdminResolverService
+    }
   },
   {
     path: '',

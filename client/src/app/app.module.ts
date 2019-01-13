@@ -16,7 +16,6 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { StarRatingModule } from 'angular-star-rating';
 import { AdminComponent } from './admin/admin.component';
 
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -39,4 +38,4 @@ import { AdminComponent } from './admin/admin.component';
   providers: [AngularFireAuth, AngularFirestore],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

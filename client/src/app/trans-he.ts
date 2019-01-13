@@ -18,5 +18,7 @@ export const trans = ({
     judgesSubList: 'בחר שופט ולחץ על הכפתור על מנת לראות את הדירוד שלו',
     judgeError: 'חובה לבחור שופט',
     judge: 'שופט',
-    watchJudge: 'צפה בדירוגים של השופא'
+    watchJudge: 'צפה בדירוגים של השופא',
+    average: 'ממוצע',
+    backToAdmin: 'חזור למסך אדמין'
 });

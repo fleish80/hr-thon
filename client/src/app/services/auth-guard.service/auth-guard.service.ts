@@ -1,14 +1,9 @@
-import { catchError, tap, map, switchMap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import {
-  CanActivate,
-  RouterStateSnapshot,
-  ActivatedRouteSnapshot,
-  Router
-} from '@angular/router';
-import { Observable, of } from 'rxjs';
-import { FirebaseService } from '../firebase.service/firebase.service';
+import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
+import { Observable } from 'rxjs';
+import { map, switchMap, tap, take, catchError } from 'rxjs/operators';
 import { Judge } from '../../models/judge';
+import { FirebaseService } from '../firebase.service/firebase.service';
 
 @Injectable({
   providedIn: 'root'

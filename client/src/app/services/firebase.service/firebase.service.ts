@@ -7,7 +7,7 @@ import {
   DocumentChangeAction
 } from '@angular/fire/firestore';
 import { combineLatest, Observable } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { map, switchMap, tap } from 'rxjs/operators';
 import { Clause } from '../../models/clause';
 import { Judge } from '../../models/judge';
 import { Login } from '../../models/login';
@@ -21,7 +21,7 @@ export class FirebaseService {
     private afAuth: AngularFireAuth,
     private db: AngularFirestore,
     private snackBarService: SnackBarService
-  ) {}
+  ) { }
 
   emailLogin(login: Login) {
     return this.afAuth.auth.signInWithEmailAndPassword(
@@ -73,6 +73,15 @@ export class FirebaseService {
             return { id, ...data } as Project;
           });
         })
+      );
+  }
+
+  getProjectRating(judge: Judge, project: Project): Observable<number> {
+    return this.db
+      .collection('projects-average').doc(project.id.toString())
+      .collection('judges').doc(judge.uid).valueChanges()
+      .pipe(
+        map((p: Project) => p && p.average)
       );
   }
 

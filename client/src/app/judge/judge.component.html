@@ -9,10 +9,12 @@
         <mat-expansion-panel-header>
           <mat-panel-title>{{project.desc}}</mat-panel-title>
         </mat-expansion-panel-header>
-        <app-rating [judge]="judge" [project]="project"></app-rating>
-        <!-- <mat-spinner class="spinner-rating" *ngIf="projectLoading === project.id"></mat-spinner> -->
+        <app-rating [judge]="judge" [project]="project" [admin]="admin"></app-rating>
       </mat-expansion-panel>
     </mat-accordion>
+    <mat-card-actions *ngIf="admin">
+        <a mat-raised-button color="primary" [routerLink]="['/admin']">{{'backToAdmin' | translate}}</a>
+    </mat-card-actions>
   </mat-card-content>
 </mat-card>
 <mat-spinner *ngIf="loading"></mat-spinner>
