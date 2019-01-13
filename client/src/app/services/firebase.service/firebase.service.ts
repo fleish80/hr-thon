@@ -48,7 +48,7 @@ export class FirebaseService {
 
   getJudges(): Observable<Judge[]> {
     return this.db
-      .collection<Judge>('judges')
+      .collection<Judge>('judges', ref => ref)
       .snapshotChanges()
       .pipe(
         map((changes: DocumentChangeAction<Judge>[]) => {
@@ -57,7 +57,8 @@ export class FirebaseService {
             const data = change.payload.doc.data();
             return { uid, ...data } as Judge;
           });
-        })
+        }),
+        map((judges:  Judge[]) => judges.filter((judge: Judge) => !judge.admin))
       );
   }
 
