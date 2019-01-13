@@ -20,5 +20,6 @@ export const trans = ({
     judge: 'שופט',
     watchJudge: 'צפה בדירוגים של השופא',
     average: 'ממוצע',
-    backToAdmin: 'חזור למסך אדמין'
+    backToAdmin: 'חזור למסך אדמין',
+    helloAdmin: ' שלום אדמין'
 });

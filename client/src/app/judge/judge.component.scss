@@ -17,7 +17,7 @@
   font-family: $font-family-arial;
   @include mobile() {
     font-size: 1.1rem;
-}
+  }
 }
 
 mat-expansion-panel-header {

@@ -1,19 +1,24 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FlexLayoutModule } from '@angular/flex-layout';
 import {
-  MatButtonModule, MatCardModule,
-  MatFormFieldModule, MatGridListModule, MatIconModule, MatInputModule,
-  MatMenuModule, MatRippleModule, MatSelectModule, MatProgressSpinnerModule, MatSnackBarModule, MatExpansionModule, MatTableModule
+  MatButtonModule,
+  MatCardModule,
+  MatExpansionModule,
+  MatFormFieldModule,
+  MatIconModule,
+  MatInputModule,
+  MatProgressSpinnerModule,
+  MatSelectModule,
+  MatSnackBarModule,
+  MatTableModule
 } from '@angular/material';
-import { CdkTableModule } from '@angular/cdk/table';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [],
-  imports: [
-    BrowserAnimationsModule
-  ],
-  exports: [MatCardModule,
+  imports: [BrowserAnimationsModule, FlexLayoutModule],
+  exports: [
+    MatCardModule,
     MatInputModule,
     MatFormFieldModule,
     MatIconModule,
@@ -22,6 +27,8 @@ import { CdkTableModule } from '@angular/cdk/table';
     MatProgressSpinnerModule,
     MatSnackBarModule,
     MatTableModule,
-    MatSelectModule]
+    MatSelectModule,
+    FlexLayoutModule
+  ]
 })
-export class MaterialModule { }
+export class MaterialModule {}
