@@ -15,7 +15,7 @@ export class AdminComponent implements OnInit {
 
   projects$: Observable<Project[]>;
   judges$: Observable<Judge[]>;
-  displayedColumns: string[] = ['desc', 'summary'];
+  displayedColumns: string[] = ['id', 'desc', 'summary'];
   form: FormGroup;
   judgesCtrl: FormControl;
 

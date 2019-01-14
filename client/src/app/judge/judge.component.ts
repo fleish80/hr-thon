@@ -29,26 +29,21 @@ export class JudgeComponent implements OnInit, OnDestroy {
     const snapshot = this.activeRoute.snapshot;
       this.uid = snapshot.params.uid;
       this.admin = snapshot.data.admin;
-      console.log('admin', this.admin);
       if (this.uid) {
         const judge$ = this.firebaseService.getJudge(this.uid);
         const projects$ = this.firebaseService.getProjects();
         this.subscriber.add(
           combineLatest(judge$, projects$).pipe(take(1))
             .subscribe(([judge, projects]) => {
-              if (!this.judge) {
-                this.judge = judge;
-              }
-              if (!this.projects) {
-                this.projects = projects;
-              }
+              this.judge = judge;
+              this.projects = projects;
               this.loading = false;
             },
-              (error: any) => {
-                console.error(error);
-                this.snackBarService.openFailure();
-                this.loading = false;
-              }));
+            (error: any) => {
+              console.error(error);
+              this.snackBarService.openFailure();
+              this.loading = false;
+            }));
       }
   }
 

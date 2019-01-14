@@ -21,5 +21,6 @@ export const trans = ({
     watchJudge: 'צפה בדירוגים של השופא',
     average: 'ממוצע',
     backToAdmin: 'חזור למסך אדמין',
-    helloAdmin: ' שלום אדמין'
+    helloAdmin: ' שלום אדמין',
+    projectNumber: 'מספר הפרוייקט'
 });
