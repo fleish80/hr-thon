@@ -1,13 +1,9 @@
 import { Injectable } from '@angular/core';
 import { FirebaseAuth } from '@angular/fire';
 import { AngularFireAuth } from '@angular/fire/auth';
-import {
-  AngularFirestore,
-  AngularFirestoreCollection,
-  DocumentChangeAction
-} from '@angular/fire/firestore';
+import { AngularFirestore, AngularFirestoreCollection, DocumentChangeAction } from '@angular/fire/firestore';
 import { combineLatest, Observable } from 'rxjs';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import { Clause } from '../../models/clause';
 import { Judge } from '../../models/judge';
 import { Login } from '../../models/login';
@@ -58,7 +54,7 @@ export class FirebaseService {
             return { uid, ...data } as Judge;
           });
         }),
-        map((judges:  Judge[]) => judges.filter((judge: Judge) => !judge.admin))
+        map((judges:  Judge[]) => judges.filter((judge: Judge) => !judge.admin && !judge.hidden))
       );
   }
 
@@ -73,7 +69,10 @@ export class FirebaseService {
             const data = change.payload.doc.data();
             return { id, ...data } as Project;
           });
-        })
+        }),
+        map((projects: Project[]) => projects.sort((p1: Project, p2: Project) => {
+          return p1.id - p2.id;
+        }))
       );
   }
 

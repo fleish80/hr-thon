@@ -7,7 +7,7 @@
     <mat-accordion>
       <mat-expansion-panel *ngFor="let project of projects">
         <mat-expansion-panel-header>
-          <mat-panel-title>{{project.desc}}</mat-panel-title>
+          <mat-panel-title>{{project.id}}. {{project.desc}}</mat-panel-title>
         </mat-expansion-panel-header>
         <app-rating [judge]="judge" [project]="project" [admin]="admin"></app-rating>
       </mat-expansion-panel>
