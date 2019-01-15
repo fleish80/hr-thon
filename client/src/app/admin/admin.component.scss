@@ -1,5 +1,13 @@
 @import '../variables';
 
+:host {
+  display: block;
+  margin: 0 auto;
+  max-width: 767px;
+  min-width: 250px;
+}
+
+
 .mat-form-field {
     width: 100%;
 }

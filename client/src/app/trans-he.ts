@@ -22,5 +22,7 @@ export const trans = ({
     average: 'ממוצע',
     backToAdmin: 'חזור למסך אדמין',
     helloAdmin: ' שלום אדמין',
-    projectNumber: 'מספר הפרוייקט'
+    projectNumber: 'מספר הפרוייקט',
+    judges: 'שופטים',
+    summary: 'סיכום'
 });
