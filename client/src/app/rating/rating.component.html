@@ -6,12 +6,14 @@
           <span class="title">{{clause.desc}}</span>
           <div class="stars">
             <star-rating-control
+            [starType]="'icon'"
             [numOfStars]="5"
             [size]="'large'"
             [formControl]="ctrlMap.get(clause.title)"
             [staticColor]="f.submitted && ctrlMap.get(clause.title).invalid ? 'negative' : 'ok'"
             [space]="'around'"
-            [disabled]="admin"></star-rating-control>
+            [disabled]="admin"
+            ></star-rating-control>
             <span class="numeric-result">{{form.value[clause.title]}}/5</span>
             <mat-error *ngIf="f.submitted && ctrlMap.get(clause.title).invalid">{{'chooseRating' | translate}}</mat-error>
           </div>

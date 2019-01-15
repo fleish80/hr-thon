@@ -16,6 +16,7 @@ body {
 .mat-snack-bar-container.toast-message {
   display: flex;
   justify-content: center;
+
   &.toast-success {
     color: #155724;
     background-color: #d4edda;
@@ -26,6 +27,10 @@ body {
     background-color: #f8d7da;
     border-color: #f5c6cb;
   }
+}
+
+.mat-snack-bar-handset .mat-snack-bar-container.toast-message {
+  margin: 20px;
 }
 
 .mat-progress-spinner {

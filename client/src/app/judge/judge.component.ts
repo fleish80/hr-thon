@@ -1,10 +1,11 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { combineLatest, Subscriber } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { Judge } from '../models/judge';
 import { FirebaseService } from '../services/firebase.service/firebase.service';
 import { SnackBarService } from '../services/snack-bar.service/snack-bar.service';
+import { MatAccordion } from '@angular/material';
 
 @Component({
   selector: 'app-judge',
@@ -18,6 +19,7 @@ export class JudgeComponent implements OnInit, OnDestroy {
   loading = true;
   admin: boolean;
   subscriber = new Subscriber();
+  @ViewChild(MatAccordion) accordion: MatAccordion;
 
   constructor(
     private activeRoute: ActivatedRoute,
@@ -49,5 +51,9 @@ export class JudgeComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscriber.unsubscribe();
+  }
+
+  closeAll() {
+    this.accordion.closeAll();
   }
 }

@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { combineLatest, Observable, Subscriber } from 'rxjs';
@@ -17,11 +17,11 @@ export class RatingComponent implements OnInit, OnDestroy {
   @Input() judge: Judge;
   @Input() project: Project;
   @Input() admin: boolean;
+  @Output() update = new EventEmitter();
   clauses: Clause[];
   ctrlMap: Map<string, FormControl> = new Map<string, FormControl>();
   form: FormGroup;
   loading = true;
-  updated = true;
   subscriber = new Subscriber();
 
   constructor(
@@ -85,7 +85,6 @@ export class RatingComponent implements OnInit, OnDestroy {
 
   async submit() {
     if (this.form.valid) {
-      this.updated = false;
       const clauses = Object.assign(this.clauses);
       clauses.forEach((clause: Clause) => {
         clause.rating = this.form.value[clause.title];
@@ -106,18 +105,16 @@ export class RatingComponent implements OnInit, OnDestroy {
             .subscribe(
               async (promise: Promise<any>) => {
                 try {
-                  if (!this.updated) {
-                    await promise;
-                    const message = this.translateService.instant(
-                      'projectRegistred',
-                      {
-                        projectName: this.project.desc
-                      }
-                    );
-                    this.snackBarService.openSuccess(message);
-                    this.updated = true;
-                    this.loading = false;
-                  }
+                  await promise;
+                  const message = this.translateService.instant(
+                    'projectRegistred',
+                    {
+                      projectName: this.project.desc
+                    }
+                  );
+                  this.snackBarService.openSuccess(message);
+                  this.loading = false;
+                  this.update.emit();
                 } catch (error) {
                   this.catchUpdateRatingError(error);
                 }

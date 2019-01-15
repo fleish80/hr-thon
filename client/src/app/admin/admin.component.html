@@ -6,17 +6,20 @@
         <mat-card-title>{{ 'summaryTable' | translate }}</mat-card-title>
       </mat-card-header>
       <mat-card-content >
-        <mat-table *ngIf="(projects$ | async) as projects; else loading" [dataSource]="projects" class="mat-elevation-z8">
+        <mat-table *ngIf="(dataSource$ | async) as dataSource; else loading"
+        [dataSource]="dataSource"
+        class="mat-elevation-z8"
+        matSort>
           <ng-container matColumnDef="id">
-            <mat-header-cell *matHeaderCellDef>{{'projectNumber' | translate}}</mat-header-cell>
+            <mat-header-cell *matHeaderCellDef mat-sort-header>{{'projectNumber' | translate}}</mat-header-cell>
             <mat-cell *matCellDef="let element"> {{ element.id }} </mat-cell>
           </ng-container>
           <ng-container matColumnDef="desc">
-            <mat-header-cell *matHeaderCellDef>{{'projectName' | translate}}</mat-header-cell>
+            <mat-header-cell *matHeaderCellDef mat-sort-header>{{'projectName' | translate}}</mat-header-cell>
             <mat-cell *matCellDef="let element"> {{ element.desc }} </mat-cell>
           </ng-container>
           <ng-container matColumnDef="summary">
-            <mat-header-cell *matHeaderCellDef>{{'summaryNumber' | translate}}</mat-header-cell>
+            <mat-header-cell *matHeaderCellDef mat-sort-header>{{'summaryNumber' | translate}}</mat-header-cell>
             <mat-cell *matCellDef="let element"> {{ element.summary }} </mat-cell>
           </ng-container>
           <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
