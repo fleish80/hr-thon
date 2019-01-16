@@ -6,7 +6,7 @@
         <mat-card-title>{{ 'summaryTable' | translate }}</mat-card-title>
       </mat-card-header>
       <mat-card-content >
-        <mat-table *ngIf="(dataSource$ | async) as dataSource; else loading"
+        <mat-table
         [dataSource]="dataSource"
         class="mat-elevation-z8"
         matSort>
@@ -20,7 +20,7 @@
           </ng-container>
           <ng-container matColumnDef="summary">
             <mat-header-cell *matHeaderCellDef mat-sort-header>{{'summaryNumber' | translate}}</mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{ element.summary }} </mat-cell>
+            <mat-cell *matCellDef="let element"> {{ element.summary | number:'1.0-2' }} </mat-cell>
           </ng-container>
           <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
           <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>

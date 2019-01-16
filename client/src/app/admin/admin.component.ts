@@ -1,11 +1,10 @@
-import { Component, OnInit, HostBinding, ViewChild } from '@angular/core';
-import { FirebaseService } from '../services/firebase.service/firebase.service';
+import { AfterViewInit, Component, ViewChild, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatSort, MatTableDataSource } from '@angular/material';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Judge } from '../models/judge';
-import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
-import { Router } from '@angular/router';
-import { MatSort, MatTableDataSource } from '@angular/material';
-import { map } from 'rxjs/operators';
+import { FirebaseService } from '../services/firebase.service/firebase.service';
 
 @Component({
   selector: 'app-admin',
@@ -14,8 +13,7 @@ import { map } from 'rxjs/operators';
 })
 export class AdminComponent implements OnInit {
 
-
-  dataSource$: Observable<MatTableDataSource<Project>>;
+  dataSource: MatTableDataSource<Project>;
   judges$: Observable<Judge[]>;
   displayedColumns: string[] = ['id', 'desc', 'summary'];
   form: FormGroup;
@@ -25,13 +23,10 @@ export class AdminComponent implements OnInit {
   constructor(private firebaseService: FirebaseService, private fb: FormBuilder, private router: Router) { }
 
   ngOnInit() {
-    this.dataSource$ = this.firebaseService.getProjects().pipe(
-      map((projects: Project[]) => {
-        const dataSource = new MatTableDataSource(projects);
-        dataSource.sort = this.sort;
-        return dataSource;
-      })
-    );
+    this.firebaseService.getProjects().subscribe((projects: Project[]) => {
+      this.dataSource = new MatTableDataSource(projects);
+      this.dataSource.sort = this.sort;
+    });
     this.judges$ = this.firebaseService.getJudges();
     this.judgesCtrl = new FormControl(null, [Validators.required]);
     this.form = this.fb.group({
