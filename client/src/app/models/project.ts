@@ -3,4 +3,5 @@ interface Project {
     desc?: string;
     average?: number;
     summary?: number;
+    hidden?: boolean;
 }

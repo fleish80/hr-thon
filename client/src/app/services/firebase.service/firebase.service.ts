@@ -70,6 +70,7 @@ export class FirebaseService {
             return { id, ...data } as Project;
           });
         }),
+        map((projects: Project[]) => projects.filter((project: Project) => !project.hidden)),
         map((projects: Project[]) => projects.sort((p1: Project, p2: Project) => {
           return p1.id - p2.id;
         }))
