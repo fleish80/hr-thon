@@ -153,6 +153,7 @@ export class FirebaseService {
       { rating: 0 }
     );
     const projectAvg: number = projectTotal.rating / 100;
+    project.average = projectAvg;
     return this.db
       .collection('projects-average')
       .doc(project.id.toString())
@@ -183,9 +184,12 @@ export class FirebaseService {
         averages.filter((average: number) => !!average)
       ),
       map((averages: number[]) => {
-        const summary =
-          averages.reduce((acc: number, curr: number) => acc + curr, 0) /
-          averages.length;
+        let summary = 0;
+        if (averages && averages.length > 0) {
+          summary =
+            averages.reduce((acc: number, curr: number) => acc + curr, 0) /
+            averages.length;
+        }
         return this.db
           .collection('projects')
           .doc(project.id.toString())

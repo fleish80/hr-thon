@@ -18,6 +18,7 @@ export class RatingComponent implements OnInit, OnDestroy {
   @Input() project: Project;
   @Input() admin: boolean;
   @Output() update = new EventEmitter();
+  @Output() getAverage = new EventEmitter<number>();
   clauses: Clause[];
   ctrlMap: Map<string, FormControl> = new Map<string, FormControl>();
   form: FormGroup;

@@ -5,7 +5,7 @@ export const trans = ({
     passwordError: 'חובה להזין סיסמא',
     connect: 'התחבר',
     hello: 'שלום {{fullName}}',
-    systemConnection: 'כניסה למערכת שיפוט משאטון',
+    systemConnection: 'כניסה למערכת שיפוט משאתון',
     chooseProject: 'אנא בחר פרוייקט מתוך רשימת הפרוייקטים אשר מטה ודרג כל פרוייקט בנפרד, אנא הקפד לדרג את כל הפרוייקטים ברשימה',
     rate: 'שלח דירוג',
     errorHapened: 'אירעה שגיאה, אנא פנה לאחראי',

@@ -7,7 +7,10 @@
     <mat-accordion [multi]="true">
       <mat-expansion-panel *ngFor="let project of projects">
         <mat-expansion-panel-header>
-          <mat-panel-title>{{project.id}}. {{project.desc}}</mat-panel-title>
+          <mat-panel-title>
+            <span>{{project.id}}. {{project.desc}}</span>
+            <span class="average" *ngIf="project?.average">{{'average' | translate}}: {{project?.average}}</span>
+          </mat-panel-title>
         </mat-expansion-panel-header>
         <app-rating *ngIf="judge && project"
         [judge]="judge"
