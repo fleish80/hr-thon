@@ -53,7 +53,10 @@ export class LoginComponent implements OnInit, OnDestroy {
       try {
         this.loading = true;
         const credetionals: firebase.auth.UserCredential = await this.firebaseService.emailLogin(
-          <Login>this.form.value
+          {
+            username: `${this.usernameCtrl.value}@poalim.co.il`,
+            password: this.passwordCtrl.value
+          }
         );
         const uid: string = credetionals.user.uid;
         this.subscriber.add(
