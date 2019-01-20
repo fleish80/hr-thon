@@ -1,10 +1,7 @@
 <mat-card>
 <mat-tab-group>
-  <mat-tab label="{{'summary' | translate}}">
+  <mat-tab label="{{'summaryTable' | translate}}">
     <mat-card>
-      <mat-card-header>
-        <mat-card-title>{{ 'summaryTable' | translate }}</mat-card-title>
-      </mat-card-header>
       <mat-card-content >
         <mat-table
         [dataSource]="dataSource"
@@ -31,11 +28,10 @@
       </mat-card-content>
     </mat-card>
   </mat-tab>
-  <mat-tab label="{{'judges' | translate}}">
+  <mat-tab label="{{'judgesList' | translate}}">
     <form [formGroup]="form" (ngSubmit)="submit()" class="judges">
       <mat-card *ngIf="(judges$ | async) as judges; else loading">
         <mat-card-header>
-          <mat-card-title>{{ 'judgesList' | translate }}</mat-card-title>
           <mat-card-subtitle>{{ 'judgesSubList' | translate }}</mat-card-subtitle>
         </mat-card-header>
         <mat-card-content >
