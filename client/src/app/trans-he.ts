@@ -15,7 +15,7 @@ export const trans = ({
     projectName: 'שם הפרוייקט',
     summaryNumber: 'ציון מסכם',
     judgesList: 'שופטים',
-    judgesSubList: 'בחר שופט ולחץ על הכפתור על מנת לראות את הדירוד שלו',
+    judgesSubList: 'בחר שופט ולחץ על הכפתור על מנת לראות את הדירוג שלו',
     judgeError: 'חובה לבחור שופט',
     judge: 'שופט',
     watchJudge: 'צפה בדירוגים של השופט',
